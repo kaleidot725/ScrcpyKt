@@ -1,8 +1,8 @@
 package jp.kaleidot725.scrcpykt.builders
 
-import jp.kaleidot725.scrcpykt.CaptureOrientation
-import jp.kaleidot725.scrcpykt.RecordFormat
 import jp.kaleidot725.scrcpykt.ScrcpyCommand
+import jp.kaleidot725.scrcpykt.option.CaptureOrientation
+import jp.kaleidot725.scrcpykt.option.RecordFormat
 
 class RecordingOptionsBuilder(private val command: ScrcpyCommand) {
     

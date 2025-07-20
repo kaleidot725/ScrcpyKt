@@ -1,8 +1,8 @@
 package jp.kaleidot725.scrcpykt.builders
 
-import jp.kaleidot725.scrcpykt.AudioCodec
-import jp.kaleidot725.scrcpykt.AudioSource
 import jp.kaleidot725.scrcpykt.ScrcpyCommand
+import jp.kaleidot725.scrcpykt.option.AudioCodec
+import jp.kaleidot725.scrcpykt.option.AudioSource
 
 class AudioOptionsBuilder(private val command: ScrcpyCommand) {
     

@@ -1,7 +1,7 @@
 package jp.kaleidot725.scrcpykt.builders
 
-import jp.kaleidot725.scrcpykt.CameraFacing
 import jp.kaleidot725.scrcpykt.ScrcpyCommand
+import jp.kaleidot725.scrcpykt.option.CameraFacing
 
 class CameraOptionsBuilder(private val command: ScrcpyCommand) {
     

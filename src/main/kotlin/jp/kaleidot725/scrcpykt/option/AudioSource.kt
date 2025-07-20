@@ -1,4 +1,4 @@
-package jp.kaleidot725.scrcpykt
+package jp.kaleidot725.scrcpykt.option
 
 enum class AudioSource(val value: String) {
     OUTPUT("output"),

@@ -1,4 +1,4 @@
-package jp.kaleidot725.scrcpykt
+package jp.kaleidot725.scrcpykt.option
 
 enum class CaptureOrientation(val value: String) {
     ROTATION_0("0"),

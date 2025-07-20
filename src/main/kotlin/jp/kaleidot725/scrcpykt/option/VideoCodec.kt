@@ -1,4 +1,4 @@
-package jp.kaleidot725.scrcpykt
+package jp.kaleidot725.scrcpykt.option
 
 enum class VideoCodec(val value: String) {
     H264("h264"),

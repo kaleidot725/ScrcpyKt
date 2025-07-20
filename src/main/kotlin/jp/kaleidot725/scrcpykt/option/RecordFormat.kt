@@ -1,4 +1,4 @@
-package jp.kaleidot725.scrcpykt
+package jp.kaleidot725.scrcpykt.option
 
 enum class RecordFormat(val value: String) {
     MP4("mp4"),

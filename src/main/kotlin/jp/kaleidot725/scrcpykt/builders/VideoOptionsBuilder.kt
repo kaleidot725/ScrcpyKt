@@ -1,8 +1,8 @@
 package jp.kaleidot725.scrcpykt.builders
 
 import jp.kaleidot725.scrcpykt.ScrcpyCommand
-import jp.kaleidot725.scrcpykt.VideoCodec
-import jp.kaleidot725.scrcpykt.VideoSource
+import jp.kaleidot725.scrcpykt.option.VideoCodec
+import jp.kaleidot725.scrcpykt.option.VideoSource
 
 class VideoOptionsBuilder(private val command: ScrcpyCommand) {
     

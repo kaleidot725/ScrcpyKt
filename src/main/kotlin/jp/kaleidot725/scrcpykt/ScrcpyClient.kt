@@ -1,5 +1,7 @@
 package jp.kaleidot725.scrcpykt
 
+import jp.kaleidot725.scrcpykt.builders.ScrcpyCommandBuilder
+import jp.kaleidot725.scrcpykt.option.VideoSource
 import java.io.IOException
 
 class ScrcpyClient {
@@ -29,6 +31,40 @@ class ScrcpyClient {
         }.start()
     }
     
+    fun command(configure: ScrcpyCommandBuilder.() -> Unit): ScrcpyCommand {
+        return ScrcpyCommandBuilder().apply(configure).build()
+    }
+    
+    fun mirror(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
+        val command = command(configure)
+        return execute(command)
+    }
+    
+    fun record(outputFile: String, configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
+        val command = command {
+            recording { outputFile(outputFile) }
+            configure()
+        }
+        return execute(command)
+    }
+    
+    fun camera(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
+        val command = command {
+            video { source(VideoSource.CAMERA) }
+            configure()
+        }
+        return execute(command)
+    }
+    
+    fun otg(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
+        val command = command {
+            input { enableOtg() }
+            configure()
+        }
+        return execute(command)
+    }
+    
+    // Legacy methods for backward compatibility
     fun startMirroring(configure: ScrcpyCommand.() -> Unit = {}): ScrcpyResult {
         val command = ScrcpyCommand().apply(configure)
         return execute(command)
@@ -56,6 +92,10 @@ class ScrcpyClient {
             configure()
         }
         return execute(command)
+    }
+    
+    companion object {
+        fun create(): ScrcpyClient = ScrcpyClient()
     }
 }
 

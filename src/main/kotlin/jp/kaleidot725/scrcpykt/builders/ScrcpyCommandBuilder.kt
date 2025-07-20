@@ -1,7 +1,7 @@
 package jp.kaleidot725.scrcpykt.builders
 
-import jp.kaleidot725.scrcpykt.LogLevel
 import jp.kaleidot725.scrcpykt.ScrcpyCommand
+import jp.kaleidot725.scrcpykt.option.LogLevel
 
 class ScrcpyCommandBuilder {
     private val command = ScrcpyCommand()

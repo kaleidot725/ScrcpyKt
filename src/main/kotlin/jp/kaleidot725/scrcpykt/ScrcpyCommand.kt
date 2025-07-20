@@ -1,5 +1,7 @@
 package jp.kaleidot725.scrcpykt
 
+import jp.kaleidot725.scrcpykt.option.*
+
 data class ScrcpyCommand(
     // Video options
     var videoBitRate: Int? = null,

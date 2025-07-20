@@ -1,9 +1,9 @@
 package jp.kaleidot725.scrcpykt.builders
 
-import jp.kaleidot725.scrcpykt.GamepadMode
-import jp.kaleidot725.scrcpykt.KeyboardMode
-import jp.kaleidot725.scrcpykt.MouseMode
 import jp.kaleidot725.scrcpykt.ScrcpyCommand
+import jp.kaleidot725.scrcpykt.option.GamepadMode
+import jp.kaleidot725.scrcpykt.option.KeyboardMode
+import jp.kaleidot725.scrcpykt.option.MouseMode
 
 class InputOptionsBuilder(private val command: ScrcpyCommand) {
     

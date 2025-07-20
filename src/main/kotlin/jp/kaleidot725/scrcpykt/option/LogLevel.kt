@@ -1,4 +1,4 @@
-package jp.kaleidot725.scrcpykt
+package jp.kaleidot725.scrcpykt.option
 
 enum class LogLevel(val value: String) {
     VERBOSE("verbose"),

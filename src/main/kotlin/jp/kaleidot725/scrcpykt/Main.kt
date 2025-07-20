@@ -1,6 +1,7 @@
 package jp.kaleidot725.scrcpykt
 
 import jp.kaleidot725.scrcpykt.builders.ScrcpyCommandBuilder
+import jp.kaleidot725.scrcpykt.option.*
 
 fun main() {
     println("ScrcpyKt Test Program")
@@ -61,7 +62,8 @@ fun showMenu() {
 }
 
 fun testBasicMirroring() {
-    val command = ScrcpyKt.command {
+    val client = ScrcpyClient.create()
+    val command = client.command {
         display {
             windowTitle("ScrcpyKt Test")
             windowSize(800, 600)
@@ -78,7 +80,7 @@ fun testBasicMirroring() {
     val execute = readLine()?.trim()?.lowercase()
     if (execute == "y" || execute == "yes") {
         println("Executing command...")
-        val result = ScrcpyKt.client().execute(command)
+        val result = client.execute(command)
         handleResult(result, "Basic mirroring")
     } else {
         println("Command not executed.")
@@ -86,30 +88,27 @@ fun testBasicMirroring() {
 }
 
 fun testScreenRecording() {
-    val command = ScrcpyKt.command {
-        recording {
-            outputFile("test_recording.mp4")
-            format(RecordFormat.MP4)
-            orientation(CaptureOrientation.ROTATION_0)
-        }
-        video {
-            codec(VideoCodec.H264)
-            bitRate(8000000)
-            maxSize(1920)
-        }
-        audio {
-            codec(AudioCodec.AAC)
-            bitRate(128000)
-        }
-    }
-    
-    println("Generated command: ${command.buildCommand().joinToString(" ")}")
+    val client = ScrcpyClient.create()
     
     print("Execute this command? (y/n): ")
     val execute = readLine()?.trim()?.lowercase()
     if (execute == "y" || execute == "yes") {
         println("Executing command...")
-        val result = ScrcpyKt.client().execute(command)
+        val result = client.record("test_recording.mp4") {
+            recording {
+                format(RecordFormat.MP4)
+                orientation(CaptureOrientation.ROTATION_0)
+            }
+            video {
+                codec(VideoCodec.H264)
+                bitRate(8000000)
+                maxSize(1920)
+            }
+            audio {
+                codec(AudioCodec.AAC)
+                bitRate(128000)
+            }
+        }
         handleResult(result, "Screen recording")
     } else {
         println("Command not executed.")
@@ -117,27 +116,22 @@ fun testScreenRecording() {
 }
 
 fun testCameraMirroring() {
-    val command = ScrcpyKt.command {
-        video {
-            source(VideoSource.CAMERA)
-        }
-        camera {
-            size(1920, 1080)
-            facing(CameraFacing.BACK)
-            fps(30)
-        }
-        display {
-            windowTitle("Camera Mirror")
-        }
-    }
-    
-    println("Generated command: ${command.buildCommand().joinToString(" ")}")
+    val client = ScrcpyClient.create()
     
     print("Execute this command? (y/n): ")
     val execute = readLine()?.trim()?.lowercase()
     if (execute == "y" || execute == "yes") {
         println("Executing command...")
-        val result = ScrcpyKt.client().execute(command)
+        val result = client.camera {
+            camera {
+                size(1920, 1080)
+                facing(CameraFacing.BACK)
+                fps(30)
+            }
+            display {
+                windowTitle("Camera Mirror")
+            }
+        }
         handleResult(result, "Camera mirroring")
     } else {
         println("Command not executed.")
@@ -145,50 +139,48 @@ fun testCameraMirroring() {
 }
 
 fun testComplexConfiguration() {
-    val command = ScrcpyCommandBuilder()
-        .video {
-            codec(VideoCodec.H265)
-            bitRate(10000000)
-            maxFps(60)
-            maxSize(2560)
-            encoder("custom_encoder")
-        }
-        .audio {
-            codec(AudioCodec.OPUS)
-            bitRate(256000)
-            source(AudioSource.OUTPUT)
-        }
-        .display {
-            windowTitle("Complex Scrcpy Configuration")
-            windowPosition(100, 100)
-            windowSize(1280, 720)
-            alwaysOnTop()
-        }
-        .input {
-            keyboard(KeyboardMode.UHID)
-            mouse(MouseMode.UHID)
-            gamepad(GamepadMode.UHID)
-        }
-        .connection {
-            serial("ABC123DEF456")
-            selectUsb()
-        }
-        .control {
-            stayAwake()
-            showTouches()
-            disableScreensaver()
-        }
-        .verbosity(LogLevel.DEBUG)
-        .startApp("com.example.testapp")
-        .build()
-    
-    println("Generated command: ${command.buildCommand().joinToString(" ")}")
+    val client = ScrcpyClient.create()
     
     print("Execute this command? (y/n): ")
     val execute = readLine()?.trim()?.lowercase()
     if (execute == "y" || execute == "yes") {
         println("Executing command...")
-        val result = ScrcpyKt.client().execute(command)
+        val result = client.mirror {
+            video {
+                codec(VideoCodec.H265)
+                bitRate(10000000)
+                maxFps(60)
+                maxSize(2560)
+                encoder("custom_encoder")
+            }
+            audio {
+                codec(AudioCodec.OPUS)
+                bitRate(256000)
+                source(AudioSource.OUTPUT)
+            }
+            display {
+                windowTitle("Complex Scrcpy Configuration")
+                windowPosition(100, 100)
+                windowSize(1280, 720)
+                alwaysOnTop()
+            }
+            input {
+                keyboard(KeyboardMode.UHID)
+                mouse(MouseMode.UHID)
+                gamepad(GamepadMode.UHID)
+            }
+            connection {
+                serial("ABC123DEF456")
+                selectUsb()
+            }
+            control {
+                stayAwake()
+                showTouches()
+                disableScreensaver()
+            }
+            verbosity(LogLevel.DEBUG)
+            startApp("com.example.testapp")
+        }
         handleResult(result, "Complex configuration")
     } else {
         println("Command not executed.")
@@ -196,24 +188,21 @@ fun testComplexConfiguration() {
 }
 
 fun testOtgMode() {
-    val command = ScrcpyKt.command {
-        input {
-            enableOtg()
-            keyboard(KeyboardMode.UHID)
-            mouse(MouseMode.UHID)
-        }
-        connection {
-            selectUsb()
-        }
-    }
-    
-    println("Generated command: ${command.buildCommand().joinToString(" ")}")
+    val client = ScrcpyClient.create()
     
     print("Execute this command? (y/n): ")
     val execute = readLine()?.trim()?.lowercase()
     if (execute == "y" || execute == "yes") {
         println("Executing command...")
-        val result = ScrcpyKt.client().execute(command)
+        val result = client.otg {
+            input {
+                keyboard(KeyboardMode.UHID)
+                mouse(MouseMode.UHID)
+            }
+            connection {
+                selectUsb()
+            }
+        }
         handleResult(result, "OTG mode")
     } else {
         println("Command not executed.")
@@ -222,31 +211,32 @@ fun testOtgMode() {
 
 fun testCommandBuilding() {
     println("Testing various command combinations...")
+    val client = ScrcpyClient.create()
     
     // Test all video codecs
     println("\nVideo codecs:")
     VideoCodec.values().forEach { codec ->
-        val cmd = ScrcpyKt.command { video { codec(codec) } }
+        val cmd = client.command { video { codec(codec) } }
         println("  ${codec.name}: ${cmd.buildCommand().joinToString(" ")}")
     }
     
     // Test all audio sources
     println("\nAudio sources:")
     AudioSource.values().forEach { source ->
-        val cmd = ScrcpyKt.command { audio { source(source) } }
+        val cmd = client.command { audio { source(source) } }
         println("  ${source.name}: ${cmd.buildCommand().joinToString(" ")}")
     }
     
     // Test all keyboard modes
     println("\nKeyboard modes:")
     KeyboardMode.values().forEach { mode ->
-        val cmd = ScrcpyKt.command { input { keyboard(mode) } }
+        val cmd = client.command { input { keyboard(mode) } }
         println("  ${mode.name}: ${cmd.buildCommand().joinToString(" ")}")
     }
     
     // Test boolean flags
     println("\nBoolean flags:")
-    val flagsCommand = ScrcpyKt.command {
+    val flagsCommand = client.command {
         video { disableVideo() }
         audio { disableAudio() }
         display { 
@@ -272,7 +262,7 @@ fun testCommandBuilding() {
     // Test camera configuration
     println("\nCamera configuration:")
     CameraFacing.values().forEach { facing ->
-        val cmd = ScrcpyKt.command { 
+        val cmd = client.command { 
             video { source(VideoSource.CAMERA) }
             camera { 
                 facing(facing)
