@@ -6,29 +6,58 @@ fun main() {
     println("ScrcpyKt Test Program")
     println("====================")
     
-    // Test 1: Basic mirroring
-    println("\n1. Testing basic screen mirroring...")
-    testBasicMirroring()
-    
-    // Test 2: Screen recording
-    println("\n2. Testing screen recording...")
-    testScreenRecording()
-    
-    // Test 3: Camera mirroring
-    println("\n3. Testing camera mirroring...")
-    testCameraMirroring()
-    
-    // Test 4: Complex configuration
-    println("\n4. Testing complex configuration...")
-    testComplexConfiguration()
-    
-    // Test 5: OTG mode
-    println("\n5. Testing OTG mode...")
-    testOtgMode()
-    
-    // Test 6: Command building only (no execution)
-    println("\n6. Testing command building...")
-    testCommandBuilding()
+    while (true) {
+        showMenu()
+        val input = readLine()?.trim()
+        
+        when (input) {
+            "1" -> {
+                println("\n1. Testing basic screen mirroring...")
+                testBasicMirroring()
+            }
+            "2" -> {
+                println("\n2. Testing screen recording...")
+                testScreenRecording()
+            }
+            "3" -> {
+                println("\n3. Testing camera mirroring...")
+                testCameraMirroring()
+            }
+            "4" -> {
+                println("\n4. Testing complex configuration...")
+                testComplexConfiguration()
+            }
+            "5" -> {
+                println("\n5. Testing OTG mode...")
+                testOtgMode()
+            }
+            "6" -> {
+                println("\n6. Testing command building...")
+                testCommandBuilding()
+            }
+            "0", "exit", "quit" -> {
+                println("Exiting ScrcpyKt Test Program. Goodbye!")
+                break
+            }
+            else -> {
+                println("Invalid input. Please enter a number from 1-6 or 0 to exit.")
+            }
+        }
+        
+        println("\n" + "=".repeat(50))
+    }
+}
+
+fun showMenu() {
+    println("\nSelect a test to run:")
+    println("1. Basic screen mirroring")
+    println("2. Screen recording")
+    println("3. Camera mirroring")
+    println("4. Complex configuration")
+    println("5. OTG mode")
+    println("6. Command building examples")
+    println("0. Exit")
+    print("\nEnter your choice (1-6, 0 to exit): ")
 }
 
 fun testBasicMirroring() {
@@ -45,9 +74,15 @@ fun testBasicMirroring() {
     
     println("Generated command: ${command.buildCommand().joinToString(" ")}")
     
-    // Uncomment to actually execute (requires scrcpy and connected device)
-    // val result = ScrcpyKt.client().execute(command)
-    // handleResult(result, "Basic mirroring")
+    print("Execute this command? (y/n): ")
+    val execute = readLine()?.trim()?.lowercase()
+    if (execute == "y" || execute == "yes") {
+        println("Executing command...")
+        val result = ScrcpyKt.client().execute(command)
+        handleResult(result, "Basic mirroring")
+    } else {
+        println("Command not executed.")
+    }
 }
 
 fun testScreenRecording() {
@@ -70,14 +105,15 @@ fun testScreenRecording() {
     
     println("Generated command: ${command.buildCommand().joinToString(" ")}")
     
-    // Uncomment to actually execute
-    // val result = ScrcpyKt.record("test_recording.mp4") {
-    //     video {
-    //         codec(VideoCodec.H264)
-    //         maxSize(1920)
-    //     }
-    // }
-    // handleResult(result, "Screen recording")
+    print("Execute this command? (y/n): ")
+    val execute = readLine()?.trim()?.lowercase()
+    if (execute == "y" || execute == "yes") {
+        println("Executing command...")
+        val result = ScrcpyKt.client().execute(command)
+        handleResult(result, "Screen recording")
+    } else {
+        println("Command not executed.")
+    }
 }
 
 fun testCameraMirroring() {
@@ -97,14 +133,15 @@ fun testCameraMirroring() {
     
     println("Generated command: ${command.buildCommand().joinToString(" ")}")
     
-    // Uncomment to actually execute
-    // val result = ScrcpyKt.camera {
-    //     camera {
-    //         facing(CameraFacing.BACK)
-    //         size(1920, 1080)
-    //     }
-    // }
-    // handleResult(result, "Camera mirroring")
+    print("Execute this command? (y/n): ")
+    val execute = readLine()?.trim()?.lowercase()
+    if (execute == "y" || execute == "yes") {
+        println("Executing command...")
+        val result = ScrcpyKt.client().execute(command)
+        handleResult(result, "Camera mirroring")
+    } else {
+        println("Command not executed.")
+    }
 }
 
 fun testComplexConfiguration() {
@@ -147,9 +184,15 @@ fun testComplexConfiguration() {
     
     println("Generated command: ${command.buildCommand().joinToString(" ")}")
     
-    // Uncomment to actually execute
-    // val result = ScrcpyKt.client().execute(command)
-    // handleResult(result, "Complex configuration")
+    print("Execute this command? (y/n): ")
+    val execute = readLine()?.trim()?.lowercase()
+    if (execute == "y" || execute == "yes") {
+        println("Executing command...")
+        val result = ScrcpyKt.client().execute(command)
+        handleResult(result, "Complex configuration")
+    } else {
+        println("Command not executed.")
+    }
 }
 
 fun testOtgMode() {
@@ -166,14 +209,15 @@ fun testOtgMode() {
     
     println("Generated command: ${command.buildCommand().joinToString(" ")}")
     
-    // Uncomment to actually execute
-    // val result = ScrcpyKt.otg {
-    //     input {
-    //         keyboard(KeyboardMode.UHID)
-    //         mouse(MouseMode.UHID)
-    //     }
-    // }
-    // handleResult(result, "OTG mode")
+    print("Execute this command? (y/n): ")
+    val execute = readLine()?.trim()?.lowercase()
+    if (execute == "y" || execute == "yes") {
+        println("Executing command...")
+        val result = ScrcpyKt.client().execute(command)
+        handleResult(result, "OTG mode")
+    } else {
+        println("Command not executed.")
+    }
 }
 
 fun testCommandBuilding() {
