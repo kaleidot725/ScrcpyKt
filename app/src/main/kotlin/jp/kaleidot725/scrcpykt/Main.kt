@@ -1,6 +1,6 @@
 package jp.kaleidot725.scrcpykt
 
-import jp.kaleidot725.scrcpykt.builder.ScrcpyCommandBuilder
+import jp.kaleidot725.scrcpykt.builder.*
 import jp.kaleidot725.scrcpykt.option.*
 
 fun main() {
@@ -58,30 +58,29 @@ fun showMenu() {
     println("5. OTG mode")
     println("6. Command building examples")
     println("0. Exit")
+    println("\nNote: During scrcpy execution, press Enter key to terminate and return to menu.")
     print("\nEnter your choice (1-6, 0 to exit): ")
 }
 
 fun testBasicMirroring() {
     val client = ScrcpyClient.create()
-    val command = client.command {
-        display {
-            windowTitle("ScrcpyKt Test")
-            windowSize(800, 600)
-        }
-        video {
-            maxSize(1920)
-            maxFps(60)
-        }
-    }
-    
-    println("Generated command: ${command.buildCommand().joinToString(" ")}")
     
     print("Execute this command? (y/n): ")
     val execute = readLine()?.trim()?.lowercase()
     if (execute == "y" || execute == "yes") {
         println("Executing command...")
-        val result = client.execute(command)
-        handleResult(result, "Basic mirroring")
+        println("Press Enter key to terminate scrcpy and return to menu.")
+        val result = client.mirror {
+            display {
+                windowTitle("ScrcpyKt Test")
+                windowSize(800, 600)
+            }
+            video {
+                maxSize(1920)
+                maxFps(60)
+            }
+        }
+        handleProcessResult(result, "Basic mirroring")
     } else {
         println("Command not executed.")
     }
@@ -94,6 +93,7 @@ fun testScreenRecording() {
     val execute = readLine()?.trim()?.lowercase()
     if (execute == "y" || execute == "yes") {
         println("Executing command...")
+        println("Press Enter key to terminate scrcpy and return to menu.")
         val result = client.record("test_recording.mp4") {
             recording {
                 format(RecordFormat.MP4)
@@ -109,7 +109,7 @@ fun testScreenRecording() {
                 bitRate(128000)
             }
         }
-        handleResult(result, "Screen recording")
+        handleProcessResult(result, "Screen recording")
     } else {
         println("Command not executed.")
     }
@@ -122,6 +122,7 @@ fun testCameraMirroring() {
     val execute = readLine()?.trim()?.lowercase()
     if (execute == "y" || execute == "yes") {
         println("Executing command...")
+        println("Press Enter key to terminate scrcpy and return to menu.")
         val result = client.camera {
             camera {
                 size(1920, 1080)
@@ -132,7 +133,7 @@ fun testCameraMirroring() {
                 windowTitle("Camera Mirror")
             }
         }
-        handleResult(result, "Camera mirroring")
+        handleProcessResult(result, "Camera mirroring")
     } else {
         println("Command not executed.")
     }
@@ -145,6 +146,7 @@ fun testComplexConfiguration() {
     val execute = readLine()?.trim()?.lowercase()
     if (execute == "y" || execute == "yes") {
         println("Executing command...")
+        println("Press Enter key to terminate scrcpy and return to menu.")
         val result = client.mirror {
             video {
                 codec(VideoCodec.H265)
@@ -181,7 +183,7 @@ fun testComplexConfiguration() {
             verbosity(LogLevel.DEBUG)
             startApp("com.example.testapp")
         }
-        handleResult(result, "Complex configuration")
+        handleProcessResult(result, "Complex configuration")
     } else {
         println("Command not executed.")
     }
@@ -194,6 +196,7 @@ fun testOtgMode() {
     val execute = readLine()?.trim()?.lowercase()
     if (execute == "y" || execute == "yes") {
         println("Executing command...")
+        println("Press Enter key to terminate scrcpy and return to menu.")
         val result = client.otg {
             input {
                 keyboard(KeyboardMode.UHID)
@@ -203,7 +206,7 @@ fun testOtgMode() {
                 selectUsb()
             }
         }
-        handleResult(result, "OTG mode")
+        handleProcessResult(result, "OTG mode")
     } else {
         println("Command not executed.")
     }
@@ -274,21 +277,36 @@ fun testCommandBuilding() {
     }
 }
 
-fun handleResult(result: ScrcpyResult, operation: String) {
+fun handleProcessResult(result: ScrcpyResult, operation: String) {
     when (result) {
-        is ScrcpyResult.Success -> {
-            println("✅ $operation completed successfully")
-            println("Exit code: ${result.exitCode}")
-            if (result.output.isNotEmpty()) {
-                println("Output: ${result.output}")
-            }
-            if (result.error.isNotEmpty()) {
-                println("Error output: ${result.error}")
-            }
-        }
         is ScrcpyResult.Error -> {
             println("❌ $operation failed: ${result.message}")
             println("Exception: ${result.exception.message}")
+        }
+        is ScrcpyResult.Success -> {
+            println("$operation process started. Press Enter to terminate...")
+
+            // Monitor for Enter key in a separate thread
+            val keyMonitorThread = Thread {
+                try {
+                    while (result.process.isAlive) {
+                        if (System.`in`.available() > 0) {
+                            val input = System.`in`.read()
+                            if (input == 10 || input == 13) { // Enter key ASCII codes (LF or CR)
+                                println("\nEnter key detected. Terminating scrcpy...")
+                                result.process.destroyForcibly()
+                                break
+                            }
+                        }
+                        Thread.sleep(100)
+                    }
+                } catch (e: Exception) {
+                    // Ignore exceptions in key monitoring
+                }
+            }
+            keyMonitorThread.isDaemon = true
+            keyMonitorThread.start()
+            result.process.waitFor()
         }
     }
 }

@@ -10,12 +10,7 @@ class ScrcpyClient {
         return try {
             val processBuilder = ProcessBuilder(command.buildCommand())
             val process = processBuilder.start()
-            
-            val exitCode = process.waitFor()
-            val output = process.inputStream.bufferedReader().readText()
-            val error = process.errorStream.bufferedReader().readText()
-            
-            ScrcpyResult.Success(exitCode, output, error)
+            ScrcpyResult.Success(process)
         } catch (e: IOException) {
             ScrcpyResult.Error("Failed to execute scrcpy command", e)
         } catch (e: InterruptedException) {
@@ -23,12 +18,6 @@ class ScrcpyClient {
         } catch (e: Exception) {
             ScrcpyResult.Error("Unexpected error during scrcpy execution", e)
         }
-    }
-    
-    fun executeAsync(command: ScrcpyCommand, callback: (ScrcpyResult) -> Unit) {
-        Thread {
-            callback(execute(command))
-        }.start()
     }
     
     fun command(configure: ScrcpyCommandBuilder.() -> Unit): ScrcpyCommand {
@@ -40,6 +29,7 @@ class ScrcpyClient {
         return execute(command)
     }
     
+    
     fun record(outputFile: String, configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
         val command = command {
             recording { outputFile(outputFile) }
@@ -47,6 +37,7 @@ class ScrcpyClient {
         }
         return execute(command)
     }
+    
     
     fun camera(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
         val command = command {
@@ -56,6 +47,7 @@ class ScrcpyClient {
         return execute(command)
     }
     
+    
     fun otg(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
         val command = command {
             input { enableOtg() }
@@ -63,13 +55,14 @@ class ScrcpyClient {
         }
         return execute(command)
     }
-    
+
+
     // Legacy methods for backward compatibility
     fun startMirroring(configure: ScrcpyCommand.() -> Unit = {}): ScrcpyResult {
         val command = ScrcpyCommand().apply(configure)
         return execute(command)
     }
-    
+
     fun recordScreen(outputFile: String, configure: ScrcpyCommand.() -> Unit = {}): ScrcpyResult {
         val command = ScrcpyCommand().apply {
             record = outputFile
@@ -77,7 +70,7 @@ class ScrcpyClient {
         }
         return execute(command)
     }
-    
+
     fun mirrorCamera(configure: ScrcpyCommand.() -> Unit = {}): ScrcpyResult {
         val command = ScrcpyCommand().apply {
             videoSource = VideoSource.CAMERA
@@ -85,7 +78,7 @@ class ScrcpyClient {
         }
         return execute(command)
     }
-    
+
     fun connectOtg(configure: ScrcpyCommand.() -> Unit = {}): ScrcpyResult {
         val command = ScrcpyCommand().apply {
             otg = true
@@ -93,7 +86,7 @@ class ScrcpyClient {
         }
         return execute(command)
     }
-    
+
     companion object {
         fun create(): ScrcpyClient = ScrcpyClient()
     }
@@ -101,9 +94,7 @@ class ScrcpyClient {
 
 sealed class ScrcpyResult {
     data class Success(
-        val exitCode: Int,
-        val output: String,
-        val error: String
+        val process: Process,
     ) : ScrcpyResult()
     
     data class Error(

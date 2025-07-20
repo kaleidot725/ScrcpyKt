@@ -39,7 +39,7 @@ This is a standard Gradle Kotlin project with the following structure:
 
 - **Language**: Kotlin (JVM target)
 - **Build System**: Gradle with Kotlin DSL
-- **Kotlin Version**: 2.1.20
+- **Kotlin Version**: 2.2.0
 - **JVM Toolchain**: Java 17
 - **Testing Framework**: JUnit Platform with kotlin-test
 - **Code Style**: Official Kotlin code style (configured in gradle.properties)
