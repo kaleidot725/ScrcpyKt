@@ -215,21 +215,21 @@ fun testCommandBuilding() {
     
     // Test all video codecs
     println("\nVideo codecs:")
-    VideoCodec.values().forEach { codec ->
+    VideoCodec.entries.forEach { codec ->
         val cmd = client.command { video { codec(codec) } }
         println("  ${codec.name}: ${cmd.buildCommand().joinToString(" ")}")
     }
     
     // Test all audio sources
     println("\nAudio sources:")
-    AudioSource.values().forEach { source ->
+    AudioSource.entries.forEach { source ->
         val cmd = client.command { audio { source(source) } }
         println("  ${source.name}: ${cmd.buildCommand().joinToString(" ")}")
     }
     
     // Test all keyboard modes
     println("\nKeyboard modes:")
-    KeyboardMode.values().forEach { mode ->
+    KeyboardMode.entries.forEach { mode ->
         val cmd = client.command { input { keyboard(mode) } }
         println("  ${mode.name}: ${cmd.buildCommand().joinToString(" ")}")
     }
@@ -261,7 +261,7 @@ fun testCommandBuilding() {
     
     // Test camera configuration
     println("\nCamera configuration:")
-    CameraFacing.values().forEach { facing ->
+    CameraFacing.entries.forEach { facing ->
         val cmd = client.command { 
             video { source(VideoSource.CAMERA) }
             camera { 
