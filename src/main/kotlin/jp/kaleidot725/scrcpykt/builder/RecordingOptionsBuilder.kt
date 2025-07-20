@@ -1,4 +1,4 @@
-package jp.kaleidot725.scrcpykt.builders
+package jp.kaleidot725.scrcpykt.builder
 
 import jp.kaleidot725.scrcpykt.ScrcpyCommand
 import jp.kaleidot725.scrcpykt.option.CaptureOrientation

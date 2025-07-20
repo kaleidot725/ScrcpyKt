@@ -1,6 +1,5 @@
 package jp.kaleidot725.scrcpykt
 
-import jp.kaleidot725.scrcpykt.builders.ScrcpyCommandBuilder
 import jp.kaleidot725.scrcpykt.option.*
 
 fun main() {

@@ -1,6 +1,6 @@
 package jp.kaleidot725.scrcpykt
 
-import jp.kaleidot725.scrcpykt.builders.ScrcpyCommandBuilder
+import jp.kaleidot725.scrcpykt.builder.ScrcpyCommandBuilder
 import jp.kaleidot725.scrcpykt.option.VideoSource
 import java.io.IOException
 

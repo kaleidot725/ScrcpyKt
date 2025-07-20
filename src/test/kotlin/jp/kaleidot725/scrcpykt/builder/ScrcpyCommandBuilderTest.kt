@@ -1,6 +1,5 @@
-package jp.kaleidot725.scrcpykt.builders
+package jp.kaleidot725.scrcpykt.builder
 
-import jp.kaleidot725.scrcpykt.*
 import jp.kaleidot725.scrcpykt.option.*
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
