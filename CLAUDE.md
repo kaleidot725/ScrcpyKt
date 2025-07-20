@@ -11,7 +11,7 @@ This library provides a Kotlin wrapper around scrcpy's CLI commands, allowing de
 
 ### Development Rules
 - All functionality must be based on the official scrcpy specification: https://github.com/Genymobile/scrcpy
-- The API should mirror scrcpy's CLI command structure and options
+- The API should mirror scrcpy's CLI commnd structure and options
 - Maintain compatibility with scrcpy's command-line interface patterns
 - Follow scrcpy's naming conventions and parameter structures where applicable
 
