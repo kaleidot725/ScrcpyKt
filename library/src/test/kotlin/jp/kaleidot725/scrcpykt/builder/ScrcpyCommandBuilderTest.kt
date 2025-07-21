@@ -1,23 +1,30 @@
 package jp.kaleidot725.scrcpykt.builder
 
-import jp.kaleidot725.scrcpykt.*
-import jp.kaleidot725.scrcpykt.option.*
+import jp.kaleidot725.scrcpykt.option.AudioCodec
+import jp.kaleidot725.scrcpykt.option.CameraFacing
+import jp.kaleidot725.scrcpykt.option.CaptureOrientation
+import jp.kaleidot725.scrcpykt.option.GamepadMode
+import jp.kaleidot725.scrcpykt.option.KeyboardMode
+import jp.kaleidot725.scrcpykt.option.LogLevel
+import jp.kaleidot725.scrcpykt.option.MouseMode
+import jp.kaleidot725.scrcpykt.option.RecordFormat
+import jp.kaleidot725.scrcpykt.option.VideoCodec
+import jp.kaleidot725.scrcpykt.option.VideoSource
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class ScrcpyCommandBuilderTest {
-
     @Test
     fun `builder should create command with video options`() {
-        val command = ScrcpyCommandBuilder()
-            .video {
-                bitRate(8000000)
-                maxFps(60)
-                codec(VideoCodec.H265)
-                source(VideoSource.CAMERA)
-            }
-            .build()
+        val command =
+            ScrcpyCommandBuilder()
+                .video {
+                    bitRate(8000000)
+                    maxFps(60)
+                    codec(VideoCodec.H265)
+                    source(VideoSource.CAMERA)
+                }.build()
 
         assertEquals(8000000, command.videoBitRate)
         assertEquals(60, command.maxFps)
@@ -27,14 +34,14 @@ class ScrcpyCommandBuilderTest {
 
     @Test
     fun `builder should create command with audio options`() {
-        val command = ScrcpyCommandBuilder()
-            .audio {
-                bitRate(128000)
-                codec(AudioCodec.OPUS)
-                source(AudioSource.MIC)
-                encoder("custom_encoder")
-            }
-            .build()
+        val command =
+            ScrcpyCommandBuilder()
+                .audio {
+                    bitRate(128000)
+                    codec(AudioCodec.OPUS)
+                    source(AudioSource.MIC)
+                    encoder("custom_encoder")
+                }.build()
 
         assertEquals(128000, command.audioBitRate)
         assertEquals(AudioCodec.OPUS, command.audioCodec)
@@ -44,15 +51,15 @@ class ScrcpyCommandBuilderTest {
 
     @Test
     fun `builder should create command with display options`() {
-        val command = ScrcpyCommandBuilder()
-            .display {
-                windowTitle("My Scrcpy")
-                windowPosition(100, 200)
-                windowSize(800, 600)
-                fullscreen()
-                alwaysOnTop()
-            }
-            .build()
+        val command =
+            ScrcpyCommandBuilder()
+                .display {
+                    windowTitle("My Scrcpy")
+                    windowPosition(100, 200)
+                    windowSize(800, 600)
+                    fullscreen()
+                    alwaysOnTop()
+                }.build()
 
         assertEquals("My Scrcpy", command.windowTitle)
         assertEquals(100, command.windowX)
@@ -65,14 +72,14 @@ class ScrcpyCommandBuilderTest {
 
     @Test
     fun `builder should create command with input options`() {
-        val command = ScrcpyCommandBuilder()
-            .input {
-                keyboard(KeyboardMode.UHID)
-                mouse(MouseMode.SDK)
-                gamepad(GamepadMode.AOA)
-                enableOtg()
-            }
-            .build()
+        val command =
+            ScrcpyCommandBuilder()
+                .input {
+                    keyboard(KeyboardMode.UHID)
+                    mouse(MouseMode.SDK)
+                    gamepad(GamepadMode.AOA)
+                    enableOtg()
+                }.build()
 
         assertEquals(KeyboardMode.UHID, command.keyboard)
         assertEquals(MouseMode.SDK, command.mouse)
@@ -82,14 +89,14 @@ class ScrcpyCommandBuilderTest {
 
     @Test
     fun `builder should create command with camera options`() {
-        val command = ScrcpyCommandBuilder()
-            .camera {
-                size(1920, 1080)
-                facing(CameraFacing.FRONT)
-                id("camera1")
-                fps(30)
-            }
-            .build()
+        val command =
+            ScrcpyCommandBuilder()
+                .camera {
+                    size(1920, 1080)
+                    facing(CameraFacing.FRONT)
+                    id("camera1")
+                    fps(30)
+                }.build()
 
         assertEquals("1920x1080", command.cameraSize)
         assertEquals(CameraFacing.FRONT, command.cameraFacing)
@@ -99,14 +106,14 @@ class ScrcpyCommandBuilderTest {
 
     @Test
     fun `builder should create command with recording options`() {
-        val command = ScrcpyCommandBuilder()
-            .recording {
-                outputFile("output.mp4")
-                format(RecordFormat.MP4)
-                orientation(CaptureOrientation.ROTATION_90)
-                disablePlayback()
-            }
-            .build()
+        val command =
+            ScrcpyCommandBuilder()
+                .recording {
+                    outputFile("output.mp4")
+                    format(RecordFormat.MP4)
+                    orientation(CaptureOrientation.ROTATION_90)
+                    disablePlayback()
+                }.build()
 
         assertEquals("output.mp4", command.record)
         assertEquals(RecordFormat.MP4, command.recordFormat)
@@ -116,13 +123,13 @@ class ScrcpyCommandBuilderTest {
 
     @Test
     fun `builder should create command with connection options`() {
-        val command = ScrcpyCommandBuilder()
-            .connection {
-                serial("ABC123")
-                selectUsb()
-                tcpip("192.168.1.100", 5555)
-            }
-            .build()
+        val command =
+            ScrcpyCommandBuilder()
+                .connection {
+                    serial("ABC123")
+                    selectUsb()
+                    tcpip("192.168.1.100", 5555)
+                }.build()
 
         assertEquals("ABC123", command.serial)
         assertTrue(command.selectUsb)
@@ -131,13 +138,13 @@ class ScrcpyCommandBuilderTest {
 
     @Test
     fun `builder should create command with control options`() {
-        val command = ScrcpyCommandBuilder()
-            .control {
-                turnScreenOff()
-                stayAwake()
-                showTouches()
-            }
-            .build()
+        val command =
+            ScrcpyCommandBuilder()
+                .control {
+                    turnScreenOff()
+                    stayAwake()
+                    showTouches()
+                }.build()
 
         assertTrue(command.turnScreenOff)
         assertTrue(command.stayAwake)
@@ -146,21 +153,19 @@ class ScrcpyCommandBuilderTest {
 
     @Test
     fun `builder should create complete command with all options`() {
-        val command = ScrcpyCommandBuilder()
-            .video {
-                codec(VideoCodec.H264)
-                maxSize(1920)
-            }
-            .audio {
-                codec(AudioCodec.AAC)
-                disableAudio()
-            }
-            .recording {
-                outputFile("recording.mp4")
-            }
-            .verbosity(LogLevel.DEBUG)
-            .startApp("com.example.app")
-            .build()
+        val command =
+            ScrcpyCommandBuilder()
+                .video {
+                    codec(VideoCodec.H264)
+                    maxSize(1920)
+                }.audio {
+                    codec(AudioCodec.AAC)
+                    disableAudio()
+                }.recording {
+                    outputFile("recording.mp4")
+                }.verbosity(LogLevel.DEBUG)
+                .startApp("com.example.app")
+                .build()
 
         val cmdList = command.buildCommand()
         assertTrue(cmdList.contains("--video-codec"))

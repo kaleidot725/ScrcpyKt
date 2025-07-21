@@ -30,14 +30,14 @@ publishing {
                 name.set("ScrcpyKt")
                 description.set("A Kotlin client library for scrcpy (Android screen mirroring)")
                 url.set("https://github.com/kaleidot725/ScrcpyKt")
-                
+
                 licenses {
                     license {
                         name.set("Apache License, Version 2.0")
                         url.set("https://www.apache.org/licenses/LICENSE-2.0")
                     }
                 }
-                
+
                 developers {
                     developer {
                         id.set("kaleidot725")

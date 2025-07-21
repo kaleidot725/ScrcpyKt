@@ -1,30 +1,34 @@
 package jp.kaleidot725.scrcpykt
 
-import jp.kaleidot725.scrcpykt.option.*
+import jp.kaleidot725.scrcpykt.option.AudioCodec
+import jp.kaleidot725.scrcpykt.option.AudioSource
+import jp.kaleidot725.scrcpykt.option.CaptureOrientation
+import jp.kaleidot725.scrcpykt.option.RecordFormat
+import jp.kaleidot725.scrcpykt.option.VideoCodec
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class ScrcpyCommandTest {
-
     @Test
     fun `buildCommand should generate basic scrcpy command`() {
         val command = ScrcpyCommand()
         val result = command.buildCommand()
-        
+
         assertEquals(listOf("scrcpy"), result)
     }
 
     @Test
     fun `buildCommand should include video options`() {
-        val command = ScrcpyCommand(
-            videoBitRate = 8000000,
-            maxFps = 60,
-            maxSize = 1920,
-            videoCodec = VideoCodec.H265
-        )
+        val command =
+            ScrcpyCommand(
+                videoBitRate = 8000000,
+                maxFps = 60,
+                maxSize = 1920,
+                videoCodec = VideoCodec.H265,
+            )
         val result = command.buildCommand()
-        
+
         assertTrue(result.contains("--video-bit-rate"))
         assertTrue(result.contains("8000000"))
         assertTrue(result.contains("--max-fps"))
@@ -37,13 +41,14 @@ class ScrcpyCommandTest {
 
     @Test
     fun `buildCommand should include audio options`() {
-        val command = ScrcpyCommand(
-            audioBitRate = 128000,
-            audioCodec = AudioCodec.OPUS,
-            audioSource = AudioSource.MIC
-        )
+        val command =
+            ScrcpyCommand(
+                audioBitRate = 128000,
+                audioCodec = AudioCodec.OPUS,
+                audioSource = AudioSource.MIC,
+            )
         val result = command.buildCommand()
-        
+
         assertTrue(result.contains("--audio-bit-rate"))
         assertTrue(result.contains("128000"))
         assertTrue(result.contains("--audio-codec"))
@@ -54,15 +59,16 @@ class ScrcpyCommandTest {
 
     @Test
     fun `buildCommand should include boolean flags`() {
-        val command = ScrcpyCommand(
-            noVideo = true,
-            noAudio = true,
-            fullscreen = true,
-            alwaysOnTop = true,
-            otg = true
-        )
+        val command =
+            ScrcpyCommand(
+                noVideo = true,
+                noAudio = true,
+                fullscreen = true,
+                alwaysOnTop = true,
+                otg = true,
+            )
         val result = command.buildCommand()
-        
+
         assertTrue(result.contains("--no-video"))
         assertTrue(result.contains("--no-audio"))
         assertTrue(result.contains("--fullscreen"))
@@ -72,13 +78,14 @@ class ScrcpyCommandTest {
 
     @Test
     fun `buildCommand should include recording options`() {
-        val command = ScrcpyCommand(
-            record = "output.mp4",
-            recordFormat = RecordFormat.MP4,
-            captureOrientation = CaptureOrientation.ROTATION_90
-        )
+        val command =
+            ScrcpyCommand(
+                record = "output.mp4",
+                recordFormat = RecordFormat.MP4,
+                captureOrientation = CaptureOrientation.ROTATION_90,
+            )
         val result = command.buildCommand()
-        
+
         assertTrue(result.contains("--record"))
         assertTrue(result.contains("output.mp4"))
         assertTrue(result.contains("--record-format"))
@@ -89,13 +96,14 @@ class ScrcpyCommandTest {
 
     @Test
     fun `buildCommand should include connection options`() {
-        val command = ScrcpyCommand(
-            serial = "ABC123",
-            selectUsb = true,
-            tcpip = "192.168.1.100:5555"
-        )
+        val command =
+            ScrcpyCommand(
+                serial = "ABC123",
+                selectUsb = true,
+                tcpip = "192.168.1.100:5555",
+            )
         val result = command.buildCommand()
-        
+
         assertTrue(result.contains("--serial"))
         assertTrue(result.contains("ABC123"))
         assertTrue(result.contains("--select-usb"))

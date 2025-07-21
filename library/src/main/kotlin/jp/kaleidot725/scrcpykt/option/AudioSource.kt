@@ -1,6 +1,8 @@
 package jp.kaleidot725.scrcpykt.option
 
-enum class AudioSource(val value: String) {
+enum class AudioSource(
+    val value: String,
+) {
     OUTPUT("output"),
     MIC("mic"),
     PLAYBACK("playback"),
@@ -8,5 +10,5 @@ enum class AudioSource(val value: String) {
     CAMCORDER("camcorder"),
     VOICE_RECOGNITION("voice-recognition"),
     VOICE_COMMUNICATION("voice-communication"),
-    UNPROCESSED("unprocessed")
+    UNPROCESSED("unprocessed"),
 }
