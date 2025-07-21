@@ -3,6 +3,9 @@ plugins {
     `maven-publish`
 }
 
+group = "com.github.kaleidot725"
+version = "0.1.0"
+
 dependencies {
     testImplementation(kotlin("test"))
 }
@@ -19,7 +22,10 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
-            
+
+            groupId = "com.github.kaleidot725"
+            artifactId = "scrcpykt"
+
             pom {
                 name.set("ScrcpyKt")
                 description.set("A Kotlin client library for scrcpy (Android screen mirroring)")
@@ -27,8 +33,8 @@ publishing {
                 
                 licenses {
                     license {
-                        name.set("MIT License")
-                        url.set("https://opensource.org/licenses/MIT")
+                        name.set("Apache License, Version 2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0")
                     }
                 }
                 

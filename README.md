@@ -2,6 +2,7 @@
 
 [![Kotlin](https://img.shields.io/badge/kotlin-2.2.0-blue.svg?logo=kotlin)](http://kotlinlang.org)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![](https://jitpack.io/v/kaleidot725/ScrcpyKt.svg)](https://jitpack.io/#kaleidot725/ScrcpyKt)
 
 A Kotlin client library for [scrcpy](https://github.com/Genymobile/scrcpy) - enabling programmatic control of Android screen mirroring and device interaction from Kotlin/JVM applications.
 

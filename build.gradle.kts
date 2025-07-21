@@ -3,9 +3,6 @@ plugins {
 }
 
 allprojects {
-    group = "jp.kaleidot725.scrcpykt"
-    version = "1.0-SNAPSHOT"
-    
     repositories {
         mavenCentral()
     }
