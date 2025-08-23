@@ -314,7 +314,7 @@ fun handleProcessResult(
                                 val input = System.`in`.read()
                                 if (input == 10 || input == 13) { // Enter key ASCII codes (LF or CR)
                                     println("\nEnter key detected. Terminating scrcpy...")
-                                    result.process.destroyForcibly()
+                                    result.process.terminate()
                                     break
                                 }
                             }

@@ -5,18 +5,33 @@ import jp.kaleidot725.scrcpykt.option.VideoSource
 import java.io.IOException
 
 class ScrcpyClient {
-    fun execute(command: ScrcpyCommand): ScrcpyResult =
-        try {
-            val processBuilder = ProcessBuilder(command.buildCommand())
+    fun execute(
+        command: ScrcpyCommand,
+        isRecording: Boolean = false,
+    ): ScrcpyResult {
+        return try {
+            // Validate scrcpy executable exists
+            val commandList = command.buildCommand()
+            if (commandList.isEmpty() || commandList[0] != "scrcpy") {
+                return ScrcpyResult.Error("Invalid scrcpy command", IllegalArgumentException("Command must start with 'scrcpy'"))
+            }
+
+            val processBuilder = ProcessBuilder(commandList)
             val process = processBuilder.start()
-            ScrcpyResult.Success(process)
+            val scrcpyProcess = ScrcpyProcess(process, isRecording)
+            ScrcpyResult.Success(scrcpyProcess)
+        } catch (e: IllegalArgumentException) {
+            ScrcpyResult.Error("Invalid parameter: ${e.message}", e)
+        } catch (e: SecurityException) {
+            ScrcpyResult.Error("Security error: insufficient permissions", e)
         } catch (e: IOException) {
-            ScrcpyResult.Error("Failed to execute scrcpy command", e)
+            ScrcpyResult.Error("Failed to execute scrcpy command (scrcpy not found or not executable)", e)
         } catch (e: InterruptedException) {
             ScrcpyResult.Error("Scrcpy execution was interrupted", e)
         } catch (e: Exception) {
             ScrcpyResult.Error("Unexpected error during scrcpy execution", e)
         }
+    }
 
     fun command(configure: ScrcpyCommandBuilder.() -> Unit): ScrcpyCommand = ScrcpyCommandBuilder().apply(configure).build()
 
@@ -34,7 +49,7 @@ class ScrcpyClient {
                 recording { outputFile(outputFile) }
                 configure()
             }
-        return execute(command)
+        return execute(command, isRecording = true)
     }
 
     fun camera(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
@@ -55,41 +70,8 @@ class ScrcpyClient {
         return execute(command)
     }
 
-    // Legacy methods for backward compatibility
-    fun startMirroring(configure: ScrcpyCommand.() -> Unit = {}): ScrcpyResult {
-        val command = ScrcpyCommand().apply(configure)
-        return execute(command)
-    }
-
-    fun recordScreen(
-        outputFile: String,
-        configure: ScrcpyCommand.() -> Unit = {},
-    ): ScrcpyResult {
-        val command =
-            ScrcpyCommand().apply {
-                record = outputFile
-                configure()
-            }
-        return execute(command)
-    }
-
-    fun mirrorCamera(configure: ScrcpyCommand.() -> Unit = {}): ScrcpyResult {
-        val command =
-            ScrcpyCommand().apply {
-                videoSource = VideoSource.CAMERA
-                configure()
-            }
-        return execute(command)
-    }
-
-    fun connectOtg(configure: ScrcpyCommand.() -> Unit = {}): ScrcpyResult {
-        val command =
-            ScrcpyCommand().apply {
-                otg = true
-                configure()
-            }
-        return execute(command)
-    }
+    // Legacy methods removed due to immutable ScrcpyCommand
+    // Use the new builder-based methods: mirror(), record(), camera(), otg()
 
     companion object {
         fun create(): ScrcpyClient = ScrcpyClient()
@@ -98,7 +80,7 @@ class ScrcpyClient {
 
 sealed class ScrcpyResult {
     data class Success(
-        val process: Process,
+        val process: ScrcpyProcess,
     ) : ScrcpyResult()
 
     data class Error(
