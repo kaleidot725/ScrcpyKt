@@ -23,31 +23,52 @@ A Kotlin client library for [scrcpy](https://github.com/Genymobile/scrcpy) - ena
 
 ## Installation
 
-### Gradle (Kotlin DSL)
+### JitPack (Recommended)
+
+Add JitPack repository to your build configuration:
+
+#### Gradle (Kotlin DSL)
 
 ```kotlin
+repositories {
+    maven { url = uri("https://jitpack.io") }
+}
+
 dependencies {
-    implementation("jp.kaleidot725.scrcpykt:scrcpykt:1.0.0")
+    implementation("com.github.kaleidot725:ScrcpyKt:Tag")
 }
 ```
 
-### Gradle (Groovy)
+#### Gradle (Groovy)
 
 ```groovy
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 dependencies {
-    implementation 'jp.kaleidot725.scrcpykt:scrcpykt:1.0.0'
+    implementation 'com.github.kaleidot725:ScrcpyKt:Tag'
 }
 ```
 
-### Maven
+#### Maven
 
 ```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
 <dependency>
-    <groupId>jp.kaleidot725.scrcpykt</groupId>
-    <artifactId>scrcpykt</artifactId>
-    <version>1.0.0</version>
+    <groupId>com.github.kaleidot725</groupId>
+    <artifactId>ScrcpyKt</artifactId>
+    <version>Tag</version>
 </dependency>
 ```
+
+> **Note**: Replace `Tag` with the desired version tag (e.g., `v1.0.0`) or use a specific commit hash.
 
 ## Quick Start
 
