@@ -19,6 +19,14 @@ class ScrcpyCommandTest {
     }
 
     @Test
+    fun `buildCommand should use custom binary path`() {
+        val command = ScrcpyCommand(binaryPath = "/custom/path/to/scrcpy")
+        val result = command.buildCommand()
+
+        assertEquals("/custom/path/to/scrcpy", result[0])
+    }
+
+    @Test
     fun `buildCommand should include video options`() {
         val command =
             ScrcpyCommand(
