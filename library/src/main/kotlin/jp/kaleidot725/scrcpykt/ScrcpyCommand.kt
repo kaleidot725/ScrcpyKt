@@ -13,6 +13,8 @@ import jp.kaleidot725.scrcpykt.option.VideoCodec
 import jp.kaleidot725.scrcpykt.option.VideoSource
 
 data class ScrcpyCommand(
+    // Binary path
+    var binaryPath: String = "scrcpy",
     // Video options
     var videoBitRate: Int? = null,
     var maxFps: Int? = null,
@@ -71,7 +73,7 @@ data class ScrcpyCommand(
     var startApp: String? = null,
 ) {
     fun buildCommand(): List<String> {
-        val command = mutableListOf("scrcpy")
+        val command = mutableListOf(binaryPath)
 
         videoBitRate?.let { command.addAll(listOf("--video-bit-rate", it.toString())) }
         maxFps?.let { command.addAll(listOf("--max-fps", it.toString())) }

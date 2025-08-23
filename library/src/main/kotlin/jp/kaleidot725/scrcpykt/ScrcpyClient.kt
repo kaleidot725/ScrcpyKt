@@ -4,7 +4,9 @@ import jp.kaleidot725.scrcpykt.builder.ScrcpyCommandBuilder
 import jp.kaleidot725.scrcpykt.option.VideoSource
 import java.io.IOException
 
-class ScrcpyClient {
+class ScrcpyClient(
+    private val binaryPath: String = "scrcpy"
+) {
     fun execute(
         command: ScrcpyCommand,
         isRecording: Boolean = false,
@@ -12,8 +14,8 @@ class ScrcpyClient {
         return try {
             // Validate scrcpy executable exists
             val commandList = command.buildCommand()
-            if (commandList.isEmpty() || commandList[0] != "scrcpy") {
-                return ScrcpyResult.Error("Invalid scrcpy command", IllegalArgumentException("Command must start with 'scrcpy'"))
+            if (commandList.isEmpty()) {
+                return ScrcpyResult.Error("Invalid scrcpy command", IllegalArgumentException("Command cannot be empty"))
             }
 
             val processBuilder = ProcessBuilder(commandList)
@@ -33,7 +35,8 @@ class ScrcpyClient {
         }
     }
 
-    fun command(configure: ScrcpyCommandBuilder.() -> Unit): ScrcpyCommand = ScrcpyCommandBuilder().apply(configure).build()
+    fun command(configure: ScrcpyCommandBuilder.() -> Unit): ScrcpyCommand = 
+        ScrcpyCommandBuilder(binaryPath).apply(configure).build()
 
     fun mirror(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
         val command = command(configure)
@@ -75,6 +78,8 @@ class ScrcpyClient {
 
     companion object {
         fun create(): ScrcpyClient = ScrcpyClient()
+        
+        fun create(binaryPath: String): ScrcpyClient = ScrcpyClient(binaryPath)
     }
 }
 
