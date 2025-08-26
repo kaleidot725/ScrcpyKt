@@ -21,6 +21,7 @@ class ScrcpyClient(
 
             val processBuilder = ProcessBuilder(commandList)
             processBuilder.setupCommandPath(binaryPath)
+            processBuilder.setupOutputRedirection(command)
             val process = processBuilder.start()
             val scrcpyProcess = ScrcpyProcess(process, isRecording)
             ScrcpyResult.Success(scrcpyProcess)
@@ -84,6 +85,28 @@ class ScrcpyClient(
             } else {
                 System.getenv("PATH")
             }
+    }
+
+    private fun ProcessBuilder.setupOutputRedirection(command: ScrcpyCommand) {
+        command.stdoutFile?.let { stdoutPath ->
+            val stdoutFile = File(stdoutPath)
+            try {
+                stdoutFile.parentFile?.mkdirs()
+                redirectOutput(ProcessBuilder.Redirect.to(stdoutFile))
+            } catch (e: Exception) {
+                throw IOException("Failed to setup stdout redirection to $stdoutPath", e)
+            }
+        }
+
+        command.stderrFile?.let { stderrPath ->
+            val stderrFile = File(stderrPath)
+            try {
+                stderrFile.parentFile?.mkdirs()
+                redirectError(ProcessBuilder.Redirect.to(stderrFile))
+            } catch (e: Exception) {
+                throw IOException("Failed to setup stderr redirection to $stderrPath", e)
+            }
+        }
     }
 
     companion object {

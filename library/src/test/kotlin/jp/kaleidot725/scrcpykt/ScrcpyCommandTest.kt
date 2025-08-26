@@ -118,4 +118,32 @@ class ScrcpyCommandTest {
         assertTrue(result.contains("--tcpip"))
         assertTrue(result.contains("192.168.1.100:5555"))
     }
+
+    @Test
+    fun `buildCommand should include output file options`() {
+        val command =
+            ScrcpyCommand(
+                stdoutFile = "/tmp/scrcpy_stdout.log",
+                stderrFile = "/tmp/scrcpy_stderr.log",
+            )
+        val result = command.buildCommand()
+
+        assertEquals(listOf("scrcpy"), result)
+        assertEquals("/tmp/scrcpy_stdout.log", command.stdoutFile)
+        assertEquals("/tmp/scrcpy_stderr.log", command.stderrFile)
+    }
+
+    @Test
+    fun `buildCommand should handle null output file options`() {
+        val command =
+            ScrcpyCommand(
+                stdoutFile = null,
+                stderrFile = null,
+            )
+        val result = command.buildCommand()
+
+        assertEquals(listOf("scrcpy"), result)
+        assertEquals(null, command.stdoutFile)
+        assertEquals(null, command.stderrFile)
+    }
 }

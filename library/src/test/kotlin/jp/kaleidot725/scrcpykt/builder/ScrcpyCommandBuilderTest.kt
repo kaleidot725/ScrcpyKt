@@ -181,4 +181,57 @@ class ScrcpyCommandBuilderTest {
         assertTrue(cmdList.contains("--start-app"))
         assertTrue(cmdList.contains("com.example.app"))
     }
+
+    @Test
+    fun `builder should create command with stdout file output`() {
+        val command =
+            ScrcpyCommandBuilder()
+                .stdoutFile("/tmp/scrcpy_stdout.log")
+                .build()
+
+        assertEquals("/tmp/scrcpy_stdout.log", command.stdoutFile)
+        assertEquals(null, command.stderrFile)
+    }
+
+    @Test
+    fun `builder should create command with stderr file output`() {
+        val command =
+            ScrcpyCommandBuilder()
+                .stderrFile("/tmp/scrcpy_stderr.log")
+                .build()
+
+        assertEquals(null, command.stdoutFile)
+        assertEquals("/tmp/scrcpy_stderr.log", command.stderrFile)
+    }
+
+    @Test
+    fun `builder should create command with both output files`() {
+        val command =
+            ScrcpyCommandBuilder()
+                .outputFiles(
+                    stdoutPath = "/tmp/scrcpy_stdout.log",
+                    stderrPath = "/tmp/scrcpy_stderr.log",
+                ).build()
+
+        assertEquals("/tmp/scrcpy_stdout.log", command.stdoutFile)
+        assertEquals("/tmp/scrcpy_stderr.log", command.stderrFile)
+    }
+
+    @Test
+    fun `builder should create command with partial output files using outputFiles`() {
+        val command1 =
+            ScrcpyCommandBuilder()
+                .outputFiles(stdoutPath = "/tmp/stdout.log")
+                .build()
+
+        val command2 =
+            ScrcpyCommandBuilder()
+                .outputFiles(stderrPath = "/tmp/stderr.log")
+                .build()
+
+        assertEquals("/tmp/stdout.log", command1.stdoutFile)
+        assertEquals(null, command1.stderrFile)
+        assertEquals(null, command2.stdoutFile)
+        assertEquals("/tmp/stderr.log", command2.stderrFile)
+    }
 }

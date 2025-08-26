@@ -82,7 +82,7 @@ class ScrcpyProcess(
     fun gracefulTerminate() {
         process.destroy()
     }
-    
+
     /**
      * Implements Closeable interface - automatically terminates the process
      */

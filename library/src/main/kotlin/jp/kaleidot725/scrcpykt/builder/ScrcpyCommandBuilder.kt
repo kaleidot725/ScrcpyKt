@@ -68,5 +68,23 @@ class ScrcpyCommandBuilder(
             command.startApp = packageName
         }
 
+    fun stdoutFile(filePath: String) =
+        apply {
+            command.stdoutFile = filePath
+        }
+
+    fun stderrFile(filePath: String) =
+        apply {
+            command.stderrFile = filePath
+        }
+
+    fun outputFiles(
+        stdoutPath: String? = null,
+        stderrPath: String? = null,
+    ) = apply {
+        stdoutPath?.let { command.stdoutFile = it }
+        stderrPath?.let { command.stderrFile = it }
+    }
+
     fun build(): ScrcpyCommand = command
 }

@@ -71,6 +71,9 @@ data class ScrcpyCommand(
     var renderDriver: String? = null,
     var pushTarget: String? = null,
     var startApp: String? = null,
+    // Output options
+    var stdoutFile: String? = null,
+    var stderrFile: String? = null,
 ) {
     fun buildCommand(): List<String> {
         val command = mutableListOf(binaryPath)
