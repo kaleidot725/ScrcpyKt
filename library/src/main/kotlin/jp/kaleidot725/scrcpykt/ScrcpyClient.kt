@@ -2,10 +2,11 @@ package jp.kaleidot725.scrcpykt
 
 import jp.kaleidot725.scrcpykt.builder.ScrcpyCommandBuilder
 import jp.kaleidot725.scrcpykt.option.VideoSource
+import java.io.File
 import java.io.IOException
 
 class ScrcpyClient(
-    private val binaryPath: String = "scrcpy"
+    private val binaryPath: String = "scrcpy",
 ) {
     fun execute(
         command: ScrcpyCommand,
@@ -19,6 +20,7 @@ class ScrcpyClient(
             }
 
             val processBuilder = ProcessBuilder(commandList)
+            processBuilder.setupCommandPath(binaryPath)
             val process = processBuilder.start()
             val scrcpyProcess = ScrcpyProcess(process, isRecording)
             ScrcpyResult.Success(scrcpyProcess)
@@ -35,8 +37,7 @@ class ScrcpyClient(
         }
     }
 
-    fun command(configure: ScrcpyCommandBuilder.() -> Unit): ScrcpyCommand = 
-        ScrcpyCommandBuilder(binaryPath).apply(configure).build()
+    fun command(configure: ScrcpyCommandBuilder.() -> Unit): ScrcpyCommand = ScrcpyCommandBuilder(binaryPath).apply(configure).build()
 
     fun mirror(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
         val command = command(configure)
@@ -76,9 +77,18 @@ class ScrcpyClient(
     // Legacy methods removed due to immutable ScrcpyCommand
     // Use the new builder-based methods: mirror(), record(), camera(), otg()
 
+    private fun ProcessBuilder.setupCommandPath(binaryPath: String?) {
+        environment()["PATH"] =
+            if (binaryPath != null && binaryPath != "scrcpy") {
+                File(binaryPath).parent + File.pathSeparator + System.getenv("PATH")
+            } else {
+                System.getenv("PATH")
+            }
+    }
+
     companion object {
         fun create(): ScrcpyClient = ScrcpyClient()
-        
+
         fun create(binaryPath: String): ScrcpyClient = ScrcpyClient(binaryPath)
     }
 }

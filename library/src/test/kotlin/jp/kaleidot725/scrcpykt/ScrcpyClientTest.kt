@@ -3,7 +3,6 @@ package jp.kaleidot725.scrcpykt
 import jp.kaleidot725.scrcpykt.builder.ScrcpyCommandBuilder
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 
 class ScrcpyClientTest {
     @Test
@@ -11,7 +10,7 @@ class ScrcpyClientTest {
         val client = ScrcpyClient.create()
         val command = client.command { }
         val commandList = command.buildCommand()
-        
+
         assertEquals("scrcpy", commandList[0])
     }
 
@@ -21,7 +20,7 @@ class ScrcpyClientTest {
         val client = ScrcpyClient.create(customPath)
         val command = client.command { }
         val commandList = command.buildCommand()
-        
+
         assertEquals(customPath, commandList[0])
     }
 
@@ -31,7 +30,7 @@ class ScrcpyClientTest {
         val client = ScrcpyClient(customPath)
         val command = client.command { }
         val commandList = command.buildCommand()
-        
+
         assertEquals(customPath, commandList[0])
     }
 
@@ -41,7 +40,7 @@ class ScrcpyClientTest {
         val builder = ScrcpyCommandBuilder(customPath)
         val command = builder.build()
         val commandList = command.buildCommand()
-        
+
         assertEquals(customPath, commandList[0])
     }
 }
