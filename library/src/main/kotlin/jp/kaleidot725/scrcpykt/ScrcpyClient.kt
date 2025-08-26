@@ -21,6 +21,7 @@ class ScrcpyClient(
 
             val processBuilder = ProcessBuilder(commandList)
             processBuilder.setupCommandPath(binaryPath)
+            processBuilder.setupAdbEnvironment(command)
             processBuilder.setupOutputRedirection(command)
             val process = processBuilder.start()
             val scrcpyProcess = ScrcpyProcess(process, isRecording)
@@ -38,7 +39,8 @@ class ScrcpyClient(
         }
     }
 
-    fun command(configure: ScrcpyCommandBuilder.() -> Unit): ScrcpyCommand = ScrcpyCommandBuilder(binaryPath).apply(configure).build()
+    fun command(configure: ScrcpyCommandBuilder.() -> Unit): ScrcpyCommand =
+        ScrcpyCommandBuilder(binaryPath).apply(configure).build()
 
     fun mirror(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
         val command = command(configure)
@@ -106,6 +108,29 @@ class ScrcpyClient(
             } catch (e: Exception) {
                 throw IOException("Failed to setup stderr redirection to $stderrPath", e)
             }
+        }
+    }
+
+    private fun ProcessBuilder.setupAdbEnvironment(command: ScrcpyCommand) {
+        val adbPath = command.adbPath
+        try {
+            val adbFile = File(adbPath)
+            if (!adbFile.exists()) {
+                throw IOException("ADB binary not found at: $adbPath")
+            }
+            if (!adbFile.canExecute()) {
+                throw IOException("ADB binary is not executable: $adbPath")
+            }
+
+            // Set ADB environment variable
+            environment()["ADB"] = adbPath
+
+            // Also add ADB directory to PATH for completeness
+            val adbDirectory = adbFile.parent
+            val currentPath = environment()["PATH"] ?: System.getenv("PATH") ?: ""
+            environment()["PATH"] = "$adbDirectory${File.pathSeparator}$currentPath"
+        } catch (e: Exception) {
+            throw IOException("Failed to setup ADB environment with path: $adbPath", e)
         }
     }
 

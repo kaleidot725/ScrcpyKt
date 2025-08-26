@@ -234,4 +234,29 @@ class ScrcpyCommandBuilderTest {
         assertEquals(null, command2.stdoutFile)
         assertEquals("/tmp/stderr.log", command2.stderrFile)
     }
+
+    @Test
+    fun `builder should create command with adb path`() {
+        val command =
+            ScrcpyCommandBuilder()
+                .adbPath("/custom/path/to/adb")
+                .build()
+
+        assertEquals("/custom/path/to/adb", command.adbPath)
+    }
+
+    @Test
+    fun `builder should create command with adb path and other options`() {
+        val command =
+            ScrcpyCommandBuilder()
+                .adbPath("/custom/path/to/adb")
+                .stdoutFile("/tmp/output.log")
+                .video {
+                    maxSize(1920)
+                }.build()
+
+        assertEquals("/custom/path/to/adb", command.adbPath)
+        assertEquals("/tmp/output.log", command.stdoutFile)
+        assertEquals(1920, command.maxSize)
+    }
 }

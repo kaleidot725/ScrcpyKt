@@ -14,6 +14,8 @@ A Kotlin client library for [scrcpy](https://github.com/Genymobile/scrcpy) - ena
 - 🎮 **OTG Mode** - Control devices without screen mirroring for input-only scenarios
 - ⚙️ **Flexible Configuration** - Comprehensive API mirroring scrcpy's CLI capabilities
 - 🚀 **Process Control** - Full control over scrcpy processes from your application
+- 📝 **Output Redirection** - Redirect stdout and stderr to files for logging and debugging
+- 🔧 **Custom ADB Path** - Support for custom ADB binary locations
 
 ## Requirements
 
@@ -179,6 +181,33 @@ val result = client.mirror {
 }
 ```
 
+### Output Redirection and Custom ADB Path
+
+ScrcpyKt supports redirecting stdout and stderr to files for logging, and using custom ADB binary paths:
+
+```kotlin
+val result = client.mirror {
+    // Redirect stdout and stderr to files
+    stdoutFile("/logs/scrcpy_output.log")
+    stderrFile("/logs/scrcpy_errors.log")
+    
+    // Or use the convenience method
+    outputFiles(
+        stdoutPath = "/logs/scrcpy_output.log",
+        stderrPath = "/logs/scrcpy_errors.log"
+    )
+    
+    // Use custom ADB binary path
+    adbPath("/custom/path/to/adb")
+    
+    video {
+        maxSize(1920)
+        maxFps(60)
+    }
+    verbosity(LogLevel.DEBUG) // Increase logging verbosity
+}
+```
+
 ### Process Control
 
 ScrcpyKt gives you full control over the scrcpy process:
@@ -218,6 +247,16 @@ The main client class providing methods to execute scrcpy operations:
 - `camera(configure)` - Mirror device camera
 - `otg(configure)` - Start OTG mode for input-only control
 - `command(configure)` - Build command without execution
+
+#### Client Creation
+
+```kotlin
+// Default client with system scrcpy binary
+val client = ScrcpyClient.create()
+
+// Client with custom scrcpy binary path
+val client = ScrcpyClient.create("/custom/path/to/scrcpy")
+```
 
 ### Configuration Builders
 
@@ -262,6 +301,26 @@ input {
     gamepad(GamepadMode.UHID)     // Gamepad mode
     enableOtg()                   // Enable OTG mode
 }
+```
+
+#### Global Configuration
+```kotlin
+// Output redirection
+stdoutFile("/path/to/stdout.log")       // Redirect stdout to file
+stderrFile("/path/to/stderr.log")       // Redirect stderr to file
+outputFiles(                            // Convenience method for both
+    stdoutPath = "/path/to/stdout.log",
+    stderrPath = "/path/to/stderr.log"
+)
+
+// Custom binary paths
+adbPath("/custom/path/to/adb")          // Custom ADB binary path
+
+// Other global options
+verbosity(LogLevel.DEBUG)               // Logging verbosity
+renderDriver("opengl")                  // Render driver
+pushTarget("/sdcard/")                  // Push target directory
+startApp("com.example.app")             // Start app after connection
 ```
 
 ### ScrcpyResult

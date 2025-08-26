@@ -146,4 +146,28 @@ class ScrcpyCommandTest {
         assertEquals(null, command.stdoutFile)
         assertEquals(null, command.stderrFile)
     }
+
+    @Test
+    fun `buildCommand should include adb path configuration`() {
+        val command =
+            ScrcpyCommand(
+                adbPath = "/custom/path/to/adb",
+            )
+        val result = command.buildCommand()
+
+        assertEquals(listOf("scrcpy"), result)
+        assertEquals("/custom/path/to/adb", command.adbPath)
+    }
+
+    @Test
+    fun `buildCommand should handle null adb path`() {
+        val command =
+            ScrcpyCommand(
+                adbPath = null,
+            )
+        val result = command.buildCommand()
+
+        assertEquals(listOf("scrcpy"), result)
+        assertEquals(null, command.adbPath)
+    }
 }

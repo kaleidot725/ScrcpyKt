@@ -14,6 +14,7 @@ import jp.kaleidot725.scrcpykt.option.VideoSource
 
 data class ScrcpyCommand(
     // Binary path
+    var adbPath: String = "adb",
     var binaryPath: String = "scrcpy",
     // Video options
     var videoBitRate: Int? = null,
@@ -74,6 +75,7 @@ data class ScrcpyCommand(
     // Output options
     var stdoutFile: String? = null,
     var stderrFile: String? = null,
+
 ) {
     fun buildCommand(): List<String> {
         val command = mutableListOf(binaryPath)
