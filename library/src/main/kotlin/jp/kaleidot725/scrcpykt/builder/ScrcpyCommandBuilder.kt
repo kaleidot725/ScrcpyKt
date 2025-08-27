@@ -87,10 +87,5 @@ class ScrcpyCommandBuilder(
         stderrPath?.let { command.stderrFile = it }
     }
 
-    fun adbPath(path: String) =
-        apply {
-            command.adbPath = path
-        }
-
     fun build(): ScrcpyCommand = command
 }

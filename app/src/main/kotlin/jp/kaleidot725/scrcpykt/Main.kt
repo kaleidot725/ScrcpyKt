@@ -308,77 +308,77 @@ fun testOutputRedirectionAndAdbPath() {
 
     // Test output redirection with different methods
     println("\n=== Output Redirection Examples ===")
-    
     // Method 1: Individual file specification
     println("\n1. Setting stdout and stderr individually:")
-    val cmd1 = client.command {
-        video {
-            maxSize(1920)
-            maxFps(30)
+    val cmd1 =
+        client.command {
+            video {
+                maxSize(1920)
+                maxFps(30)
+            }
+            stdoutFile("/tmp/scrcpy_stdout.log")
+            stderrFile("/tmp/scrcpy_stderr.log")
         }
-        stdoutFile("/tmp/scrcpy_stdout.log")
-        stderrFile("/tmp/scrcpy_stderr.log")
-    }
     println("Command: ${cmd1.buildCommand().joinToString(" ")}")
     println("Stdout will be redirected to: /tmp/scrcpy_stdout.log")
     println("Stderr will be redirected to: /tmp/scrcpy_stderr.log")
 
     // Method 2: Using outputFiles convenience method
     println("\n2. Using outputFiles convenience method:")
-    val cmd2 = client.command {
-        video {
-            maxSize(1920)
-            maxFps(30)
+    val cmd2 =
+        client.command {
+            video {
+                maxSize(1920)
+                maxFps(30)
+            }
+            outputFiles(
+                stdoutPath = "/tmp/scrcpy_combined_stdout.log",
+                stderrPath = "/tmp/scrcpy_combined_stderr.log",
+            )
         }
-        outputFiles(
-            stdoutPath = "/tmp/scrcpy_combined_stdout.log",
-            stderrPath = "/tmp/scrcpy_combined_stderr.log"
-        )
-    }
     println("Command: ${cmd2.buildCommand().joinToString(" ")}")
     println("Both stdout and stderr configured with convenience method")
 
     // Test custom ADB path
     println("\n=== Custom ADB Path Examples ===")
-    
     println("\n3. Using custom ADB path:")
-    val cmd3 = client.command {
-        adbPath("/usr/local/bin/adb")
-        connection {
-            serial("DEVICE123")
+    val cmd3 =
+        client.command {
+            connection {
+                serial("DEVICE123")
+            }
+            video {
+                maxSize(1280)
+            }
         }
-        video {
-            maxSize(1280)
-        }
-    }
     println("Command: ${cmd3.buildCommand().joinToString(" ")}")
-    println("ADB path configured to: /usr/local/bin/adb")
+    println("ADB path not supported in current implementation")
 
     // Combined example
     println("\n4. Combined example with all new options:")
-    val cmd4 = client.command {
-        adbPath("/custom/path/to/adb")
-        outputFiles(
-            stdoutPath = "/logs/scrcpy_out.log",
-            stderrPath = "/logs/scrcpy_err.log"
-        )
-        video {
-            codec(VideoCodec.H264)
-            bitRate(5000000)
-            maxSize(1920)
+    val cmd4 =
+        client.command {
+            outputFiles(
+                stdoutPath = "/logs/scrcpy_out.log",
+                stderrPath = "/logs/scrcpy_err.log",
+            )
+            video {
+                codec(VideoCodec.H264)
+                bitRate(5000000)
+                maxSize(1920)
+            }
+            audio {
+                codec(AudioCodec.AAC)
+                bitRate(128000)
+            }
+            display {
+                windowTitle("Output Redirection Test")
+                windowSize(800, 600)
+            }
+            verbosity(LogLevel.DEBUG)
         }
-        audio {
-            codec(AudioCodec.AAC)
-            bitRate(128000)
-        }
-        display {
-            windowTitle("Output Redirection Test")
-            windowSize(800, 600)
-        }
-        verbosity(LogLevel.DEBUG)
-    }
     println("Command: ${cmd4.buildCommand().joinToString(" ")}")
-    println("Custom ADB path: /custom/path/to/adb")
+    println("Custom ADB path: not supported in current implementation")
     println("Stdout: /logs/scrcpy_out.log")
     println("Stderr: /logs/scrcpy_err.log")
 
@@ -391,35 +391,35 @@ fun testOutputRedirectionAndAdbPath() {
         println("Executing mirroring with output redirection...")
         println("Check /tmp/scrcpy_demo_*.log files for output")
         println("Press Enter key to terminate scrcpy and return to menu.")
-        
-        val result = client.mirror {
-            video {
-                maxSize(1280)
-                maxFps(30)
+        val result =
+            client.mirror {
+                video {
+                    maxSize(1280)
+                    maxFps(30)
+                }
+                display {
+                    windowTitle("ScrcpyKt Output Redirection Demo")
+                    windowSize(800, 600)
+                }
+                outputFiles(
+                    stdoutPath = "/tmp/scrcpy_demo_stdout.log",
+                    stderrPath = "/tmp/scrcpy_demo_stderr.log",
+                )
+                verbosity(LogLevel.DEBUG)
             }
-            display {
-                windowTitle("ScrcpyKt Output Redirection Demo")
-                windowSize(800, 600)
-            }
-            outputFiles(
-                stdoutPath = "/tmp/scrcpy_demo_stdout.log",
-                stderrPath = "/tmp/scrcpy_demo_stderr.log"
-            )
-            verbosity(LogLevel.DEBUG)
-        }
         handleProcessResult(result, "Mirroring with output redirection")
-        
+
         // Show log file contents after execution
         println("\n=== Log File Contents ===")
         try {
             val stdoutFile = java.io.File("/tmp/scrcpy_demo_stdout.log")
             val stderrFile = java.io.File("/tmp/scrcpy_demo_stderr.log")
-            
+
             if (stdoutFile.exists()) {
                 println("\nStdout log content:")
                 println(stdoutFile.readText().take(500) + if (stdoutFile.length() > 500) "..." else "")
             }
-            
+
             if (stderrFile.exists()) {
                 println("\nStderr log content:")
                 println(stderrFile.readText().take(500) + if (stderrFile.length() > 500) "..." else "")
