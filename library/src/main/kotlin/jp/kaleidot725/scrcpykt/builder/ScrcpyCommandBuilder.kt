@@ -5,8 +5,9 @@ import jp.kaleidot725.scrcpykt.option.LogLevel
 
 class ScrcpyCommandBuilder(
     private val binaryPath: String = "scrcpy",
+    private val adbPath: String = "adb",
 ) {
-    private val command = ScrcpyCommand(binaryPath = binaryPath)
+    private val command = ScrcpyCommand(binaryPath = binaryPath, adbPath = adbPath)
 
     fun video(configure: VideoOptionsBuilder.() -> Unit) =
         apply {

@@ -7,6 +7,7 @@ import java.io.IOException
 
 class ScrcpyClient(
     private val binaryPath: String = "scrcpy",
+    private val adbPath: String = "adb",
 ) {
     fun execute(
         command: ScrcpyCommand,
@@ -40,7 +41,7 @@ class ScrcpyClient(
     }
 
     fun command(configure: ScrcpyCommandBuilder.() -> Unit): ScrcpyCommand =
-        ScrcpyCommandBuilder(binaryPath).apply(configure).build()
+        ScrcpyCommandBuilder(binaryPath, adbPath).apply(configure).build()
 
     fun mirror(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
         val command = command(configure)
@@ -112,7 +113,7 @@ class ScrcpyClient(
     }
 
     private fun ProcessBuilder.setupAdbEnvironment(command: ScrcpyCommand) {
-        val adbPath = command.adbPath
+        val adbPath = this@ScrcpyClient.adbPath
         try {
             val adbFile = File(adbPath)
             if (!adbFile.exists()) {
@@ -138,6 +139,8 @@ class ScrcpyClient(
         fun create(): ScrcpyClient = ScrcpyClient()
 
         fun create(binaryPath: String): ScrcpyClient = ScrcpyClient(binaryPath)
+
+        fun create(binaryPath: String, adbPath: String): ScrcpyClient = ScrcpyClient(binaryPath, adbPath)
     }
 }
 
