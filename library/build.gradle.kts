@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.github.kaleidot725"
-version = "1.4.0"
+version = "1.6.0"
 
 dependencies {
     testImplementation(kotlin("test"))
