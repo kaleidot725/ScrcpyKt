@@ -15,7 +15,6 @@ A Kotlin client library for [scrcpy](https://github.com/Genymobile/scrcpy) - ena
 - ⚙️ **Flexible Configuration** - Comprehensive API mirroring scrcpy's CLI capabilities
 - 🚀 **Process Control** - Full control over scrcpy processes from your application
 - 📝 **Output Redirection** - Redirect stdout and stderr to files for logging and debugging
-- 🔧 **Custom ADB Path** - Support for custom ADB binary locations
 
 ## Requirements
 
@@ -181,9 +180,9 @@ val result = client.mirror {
 }
 ```
 
-### Output Redirection and Custom ADB Path
+### Output Redirection
 
-ScrcpyKt supports redirecting stdout and stderr to files for logging, and using custom ADB binary paths:
+ScrcpyKt supports redirecting stdout and stderr to files for logging:
 
 ```kotlin
 val result = client.mirror {
@@ -196,9 +195,6 @@ val result = client.mirror {
         stdoutPath = "/logs/scrcpy_output.log",
         stderrPath = "/logs/scrcpy_errors.log"
     )
-    
-    // Use custom ADB binary path
-    adbPath("/custom/path/to/adb")
     
     video {
         maxSize(1920)
@@ -312,9 +308,6 @@ outputFiles(                            // Convenience method for both
     stdoutPath = "/path/to/stdout.log",
     stderrPath = "/path/to/stderr.log"
 )
-
-// Custom binary paths
-adbPath("/custom/path/to/adb")          // Custom ADB binary path
 
 // Other global options
 verbosity(LogLevel.DEBUG)               // Logging verbosity
