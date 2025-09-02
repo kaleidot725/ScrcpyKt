@@ -1,6 +1,7 @@
 package jp.kaleidot725.scrcpykt.builder
 
 import jp.kaleidot725.scrcpykt.ScrcpyCommand
+import jp.kaleidot725.scrcpykt.option.NewDisplay
 
 class DisplayOptionsBuilder(
     private val command: ScrcpyCommand,
@@ -41,9 +42,17 @@ class DisplayOptionsBuilder(
             command.alwaysOnTop = true
         }
 
-    fun newDisplay(resolution: String) =
+    fun newDisplay(
+        width: Int,
+        height: Int,
+        density: Int? = null,
+    ) = apply {
+        command.newDisplay = NewDisplay(width, height, density)
+    }
+
+    fun newDisplay(newDisplay: NewDisplay) =
         apply {
-            command.newDisplay = resolution
+            command.newDisplay = newDisplay
         }
 
     fun build(): ScrcpyCommand = command

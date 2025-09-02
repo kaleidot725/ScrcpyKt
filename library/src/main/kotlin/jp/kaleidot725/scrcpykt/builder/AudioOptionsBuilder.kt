@@ -12,6 +12,11 @@ class AudioOptionsBuilder(
             command.audioBitRate = bitRate
         }
 
+    fun buffer(bufferMs: Int) =
+        apply {
+            command.audioBuffer = bufferMs
+        }
+
     fun codec(codec: AudioCodec) =
         apply {
             command.audioCodec = codec

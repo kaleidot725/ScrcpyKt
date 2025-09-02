@@ -52,6 +52,7 @@ class ScrcpyCommandTest {
         val command =
             ScrcpyCommand(
                 audioBitRate = 128000,
+                audioBuffer = 40,
                 audioCodec = AudioCodec.OPUS,
                 audioSource = AudioSource.MIC,
             )
@@ -59,6 +60,8 @@ class ScrcpyCommandTest {
 
         assertTrue(result.contains("--audio-bit-rate"))
         assertTrue(result.contains("128000"))
+        assertTrue(result.contains("--audio-buffer"))
+        assertTrue(result.contains("40"))
         assertTrue(result.contains("--audio-codec"))
         assertTrue(result.contains("opus"))
         assertTrue(result.contains("--audio-source"))
@@ -160,14 +163,11 @@ class ScrcpyCommandTest {
     }
 
     @Test
-    fun `buildCommand should handle null adb path`() {
-        val command =
-            ScrcpyCommand(
-                adbPath = null,
-            )
+    fun `buildCommand should handle default adb path`() {
+        val command = ScrcpyCommand()
         val result = command.buildCommand()
 
         assertEquals(listOf("scrcpy"), result)
-        assertEquals(null, command.adbPath)
+        assertEquals("adb", command.adbPath)
     }
 }

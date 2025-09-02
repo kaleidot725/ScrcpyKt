@@ -8,6 +8,7 @@ import jp.kaleidot725.scrcpykt.option.GamepadMode
 import jp.kaleidot725.scrcpykt.option.KeyboardMode
 import jp.kaleidot725.scrcpykt.option.LogLevel
 import jp.kaleidot725.scrcpykt.option.MouseMode
+import jp.kaleidot725.scrcpykt.option.NewDisplay
 import jp.kaleidot725.scrcpykt.option.RecordFormat
 import jp.kaleidot725.scrcpykt.option.VideoCodec
 import jp.kaleidot725.scrcpykt.option.VideoSource
@@ -26,6 +27,7 @@ data class ScrcpyCommand(
     var noVideo: Boolean = false,
     // Audio options
     var audioBitRate: Int? = null,
+    var audioBuffer: Int? = null,
     var audioCodec: AudioCodec? = null,
     var audioSource: AudioSource? = null,
     var audioEncoder: String? = null,
@@ -39,7 +41,7 @@ data class ScrcpyCommand(
     var windowHeight: Int? = null,
     var fullscreen: Boolean = false,
     var alwaysOnTop: Boolean = false,
-    var newDisplay: String? = null,
+    var newDisplay: NewDisplay? = null,
     // Input options
     var keyboard: KeyboardMode? = null,
     var mouse: MouseMode? = null,
@@ -75,7 +77,6 @@ data class ScrcpyCommand(
     // Output options
     var stdoutFile: String? = null,
     var stderrFile: String? = null,
-
 ) {
     fun buildCommand(): List<String> {
         val command = mutableListOf(binaryPath)
@@ -89,6 +90,7 @@ data class ScrcpyCommand(
         if (noVideo) command.add("--no-video")
 
         audioBitRate?.let { command.addAll(listOf("--audio-bit-rate", it.toString())) }
+        audioBuffer?.let { command.addAll(listOf("--audio-buffer", it.toString())) }
         audioCodec?.let { command.addAll(listOf("--audio-codec", it.value)) }
         audioSource?.let { command.addAll(listOf("--audio-source", it.value)) }
         audioEncoder?.let { command.addAll(listOf("--audio-encoder", it)) }
@@ -102,7 +104,7 @@ data class ScrcpyCommand(
         windowHeight?.let { command.addAll(listOf("--window-height", it.toString())) }
         if (fullscreen) command.add("--fullscreen")
         if (alwaysOnTop) command.add("--always-on-top")
-        newDisplay?.let { command.addAll(listOf("--new-display", it)) }
+        newDisplay?.let { command.addAll(listOf("--new-display", it.toString())) }
 
         keyboard?.let { command.addAll(listOf("--keyboard", it.value)) }
         mouse?.let { command.addAll(listOf("--mouse", it.value)) }

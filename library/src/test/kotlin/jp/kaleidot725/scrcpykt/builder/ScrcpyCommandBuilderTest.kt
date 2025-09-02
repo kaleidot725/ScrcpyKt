@@ -39,12 +39,14 @@ class ScrcpyCommandBuilderTest {
             ScrcpyCommandBuilder()
                 .audio {
                     bitRate(128000)
+                    buffer(40)
                     codec(AudioCodec.OPUS)
                     source(AudioSource.MIC)
                     encoder("custom_encoder")
                 }.build()
 
         assertEquals(128000, command.audioBitRate)
+        assertEquals(40, command.audioBuffer)
         assertEquals(AudioCodec.OPUS, command.audioCodec)
         assertEquals(AudioSource.MIC, command.audioSource)
         assertEquals("custom_encoder", command.audioEncoder)
@@ -238,8 +240,7 @@ class ScrcpyCommandBuilderTest {
     @Test
     fun `builder should create command with adb path`() {
         val command =
-            ScrcpyCommandBuilder()
-                .adbPath("/custom/path/to/adb")
+            ScrcpyCommandBuilder(adbPath = "/custom/path/to/adb")
                 .build()
 
         assertEquals("/custom/path/to/adb", command.adbPath)
@@ -248,8 +249,7 @@ class ScrcpyCommandBuilderTest {
     @Test
     fun `builder should create command with adb path and other options`() {
         val command =
-            ScrcpyCommandBuilder()
-                .adbPath("/custom/path/to/adb")
+            ScrcpyCommandBuilder(adbPath = "/custom/path/to/adb")
                 .stdoutFile("/tmp/output.log")
                 .video {
                     maxSize(1920)

@@ -140,7 +140,10 @@ class ScrcpyClient(
 
         fun create(binaryPath: String): ScrcpyClient = ScrcpyClient(binaryPath)
 
-        fun create(binaryPath: String, adbPath: String): ScrcpyClient = ScrcpyClient(binaryPath, adbPath)
+        fun create(
+            binaryPath: String,
+            adbPath: String,
+        ): ScrcpyClient = ScrcpyClient(binaryPath, adbPath)
     }
 }
 
