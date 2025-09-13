@@ -5,11 +5,11 @@ import jp.kaleidot725.scrcpykt.option.VideoSource
 import java.io.File
 import java.io.IOException
 
-class ScrcpyClient(
+public class ScrcpyClient private constructor(
     private val binaryPath: String = "scrcpy",
     private val adbPath: String = "adb",
 ) {
-    fun execute(
+    private fun execute(
         command: ScrcpyCommand,
         isRecording: Boolean = false,
     ): ScrcpyResult {
@@ -40,15 +40,15 @@ class ScrcpyClient(
         }
     }
 
-    fun command(configure: ScrcpyCommandBuilder.() -> Unit): ScrcpyCommand =
+    public fun command(configure: ScrcpyCommandBuilder.() -> Unit): ScrcpyCommand =
         ScrcpyCommandBuilder(binaryPath, adbPath).apply(configure).build()
 
-    fun mirror(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
+    public fun mirror(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
         val command = command(configure)
         return execute(command)
     }
 
-    fun record(
+    public fun record(
         outputFile: String,
         configure: ScrcpyCommandBuilder.() -> Unit = {},
     ): ScrcpyResult {
@@ -60,7 +60,7 @@ class ScrcpyClient(
         return execute(command, isRecording = true)
     }
 
-    fun camera(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
+    public fun camera(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
         val command =
             command {
                 video { source(VideoSource.CAMERA) }
@@ -69,7 +69,7 @@ class ScrcpyClient(
         return execute(command)
     }
 
-    fun otg(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
+    public fun otg(configure: ScrcpyCommandBuilder.() -> Unit = {}): ScrcpyResult {
         val command =
             command {
                 input { enableOtg() }
@@ -135,25 +135,15 @@ class ScrcpyClient(
         }
     }
 
-    companion object {
-        fun create(): ScrcpyClient = ScrcpyClient()
+    public companion object {
+        public fun create(): ScrcpyClient = ScrcpyClient()
 
-        fun create(binaryPath: String): ScrcpyClient = ScrcpyClient(binaryPath)
+        public fun create(binaryPath: String): ScrcpyClient = ScrcpyClient(binaryPath)
 
-        fun create(
+        public fun create(
             binaryPath: String,
             adbPath: String,
         ): ScrcpyClient = ScrcpyClient(binaryPath, adbPath)
     }
 }
 
-sealed class ScrcpyResult {
-    data class Success(
-        val process: ScrcpyProcess,
-    ) : ScrcpyResult()
-
-    data class Error(
-        val message: String,
-        val exception: Exception,
-    ) : ScrcpyResult()
-}

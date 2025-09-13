@@ -1,7 +1,7 @@
 package jp.kaleidot725.scrcpykt.option
 
-enum class CaptureOrientation(
-    val value: String,
+public enum class CaptureOrientation(
+    public val value: String,
 ) {
     ROTATION_0("0"),
     ROTATION_90("90"),

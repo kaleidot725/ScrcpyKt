@@ -13,7 +13,7 @@ import jp.kaleidot725.scrcpykt.option.RecordFormat
 import jp.kaleidot725.scrcpykt.option.VideoCodec
 import jp.kaleidot725.scrcpykt.option.VideoSource
 
-data class ScrcpyCommand(
+public data class ScrcpyCommand(
     // Binary path
     var adbPath: String = "adb",
     var binaryPath: String = "scrcpy",
@@ -78,7 +78,7 @@ data class ScrcpyCommand(
     var stdoutFile: String? = null,
     var stderrFile: String? = null,
 ) {
-    fun buildCommand(): List<String> {
+    public fun buildCommand(): List<String> {
         val command = mutableListOf(binaryPath)
 
         videoBitRate?.let { command.addAll(listOf("--video-bit-rate", it.toString())) }

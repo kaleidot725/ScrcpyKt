@@ -3,57 +3,57 @@ package jp.kaleidot725.scrcpykt.builder
 import jp.kaleidot725.scrcpykt.ScrcpyCommand
 import jp.kaleidot725.scrcpykt.option.NewDisplay
 
-class DisplayOptionsBuilder(
+public class DisplayOptionsBuilder(
     private val command: ScrcpyCommand,
 ) {
-    fun displayId(id: Int) =
+    public fun displayId(id: Int): DisplayOptionsBuilder =
         apply {
             command.displayId = id
         }
 
-    fun windowTitle(title: String) =
+    public fun windowTitle(title: String): DisplayOptionsBuilder =
         apply {
             command.windowTitle = title
         }
 
-    fun windowPosition(
+    public fun windowPosition(
         x: Int,
         y: Int,
-    ) = apply {
+    ): DisplayOptionsBuilder = apply {
         command.windowX = x
         command.windowY = y
     }
 
-    fun windowSize(
+    public fun windowSize(
         width: Int,
         height: Int,
-    ) = apply {
+    ): DisplayOptionsBuilder = apply {
         command.windowWidth = width
         command.windowHeight = height
     }
 
-    fun fullscreen() =
+    public fun fullscreen(): DisplayOptionsBuilder =
         apply {
             command.fullscreen = true
         }
 
-    fun alwaysOnTop() =
+    public fun alwaysOnTop(): DisplayOptionsBuilder =
         apply {
             command.alwaysOnTop = true
         }
 
-    fun newDisplay(
+    public fun newDisplay(
         width: Int,
         height: Int,
         density: Int? = null,
-    ) = apply {
+    ): DisplayOptionsBuilder = apply {
         command.newDisplay = NewDisplay(width, height, density)
     }
 
-    fun newDisplay(newDisplay: NewDisplay) =
+    public fun newDisplay(newDisplay: NewDisplay): DisplayOptionsBuilder =
         apply {
             command.newDisplay = newDisplay
         }
 
-    fun build(): ScrcpyCommand = command
+    public fun build(): ScrcpyCommand = command
 }

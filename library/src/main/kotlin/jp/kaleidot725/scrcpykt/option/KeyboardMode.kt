@@ -1,7 +1,7 @@
 package jp.kaleidot725.scrcpykt.option
 
-enum class KeyboardMode(
-    val value: String,
+public enum class KeyboardMode(
+    public val value: String,
 ) {
     DISABLED("disabled"),
     SDK("sdk"),

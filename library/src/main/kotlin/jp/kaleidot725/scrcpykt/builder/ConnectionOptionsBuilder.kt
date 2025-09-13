@@ -2,35 +2,35 @@ package jp.kaleidot725.scrcpykt.builder
 
 import jp.kaleidot725.scrcpykt.ScrcpyCommand
 
-class ConnectionOptionsBuilder(
+public class ConnectionOptionsBuilder(
     private val command: ScrcpyCommand,
 ) {
-    fun serial(serial: String) =
+    public fun serial(serial: String): ConnectionOptionsBuilder =
         apply {
             command.serial = serial
         }
 
-    fun selectUsb() =
+    public fun selectUsb(): ConnectionOptionsBuilder =
         apply {
             command.selectUsb = true
         }
 
-    fun selectTcpip() =
+    public fun selectTcpip(): ConnectionOptionsBuilder =
         apply {
             command.selectTcpip = true
         }
 
-    fun tcpip(address: String) =
+    public fun tcpip(address: String): ConnectionOptionsBuilder =
         apply {
             command.tcpip = address
         }
 
-    fun tcpip(
+    public fun tcpip(
         host: String,
         port: Int,
-    ) = apply {
+    ): ConnectionOptionsBuilder = apply {
         command.tcpip = "$host:$port"
     }
 
-    fun build(): ScrcpyCommand = command
+    public fun build(): ScrcpyCommand = command
 }

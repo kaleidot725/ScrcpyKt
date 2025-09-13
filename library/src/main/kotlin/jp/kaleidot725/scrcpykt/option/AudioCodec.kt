@@ -1,7 +1,7 @@
 package jp.kaleidot725.scrcpykt.option
 
-enum class AudioCodec(
-    val value: String,
+public enum class AudioCodec(
+    public val value: String,
 ) {
     OPUS("opus"),
     AAC("aac"),

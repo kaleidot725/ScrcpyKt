@@ -1,43 +1,45 @@
 package jp.kaleidot725.scrcpykt
 
 import java.io.Closeable
+import java.io.InputStream
+import java.util.concurrent.TimeUnit
 
 /**
  * Wrapper for scrcpy process with specialized termination handling
  * @param process The underlying Process instance
  * @param isRecording Whether this process is performing recording
  */
-class ScrcpyProcess(
+public class ScrcpyProcess(
     private val process: Process,
     private val isRecording: Boolean = false,
 ) : Closeable {
     /**
      * Check if the process is alive
      */
-    val isAlive: Boolean
+    public val isAlive: Boolean
         get() = process.isAlive
 
     /**
      * Get the exit value of the process
      */
-    val exitValue: Int
+    public val exitValue: Int
         get() = process.exitValue()
 
     /**
      * Wait for the process to complete and return the exit code
      */
-    fun waitFor(): Int = process.waitFor()
+    public fun waitFor(): Int = process.waitFor()
 
     /**
      * Get the input stream of the process
      */
-    val inputStream
+    public val inputStream: InputStream?
         get() = process.inputStream
 
     /**
      * Get the error stream of the process
      */
-    val errorStream
+    public val errorStream: InputStream?
         get() = process.errorStream
 
     /**
@@ -46,14 +48,14 @@ class ScrcpyProcess(
      * For recording processes: Sends SIGTERM to allow graceful recording finalization
      * For non-recording processes: Forces immediate termination
      */
-    fun terminate() {
+    public fun terminate() {
         if (isRecording) {
             // For recording, send SIGTERM to allow graceful shutdown and file finalization
             process.destroy()
 
             // Wait a short time for graceful shutdown
             try {
-                val terminated = process.waitFor(3, java.util.concurrent.TimeUnit.SECONDS)
+                val terminated = process.waitFor(3, TimeUnit.SECONDS)
                 if (!terminated) {
                     // If graceful shutdown failed, force termination
                     process.destroyForcibly()
@@ -72,14 +74,14 @@ class ScrcpyProcess(
     /**
      * Force immediate termination regardless of mode
      */
-    fun forceTerminate() {
+    public fun forceTerminate() {
         process.destroyForcibly()
     }
 
     /**
      * Send graceful termination signal
      */
-    fun gracefulTerminate() {
+    public fun gracefulTerminate() {
         process.destroy()
     }
 

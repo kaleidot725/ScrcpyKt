@@ -1,7 +1,7 @@
 package jp.kaleidot725.scrcpykt.option
 
-enum class LogLevel(
-    val value: String,
+public enum class LogLevel(
+    public val value: String,
 ) {
     VERBOSE("verbose"),
     DEBUG("debug"),

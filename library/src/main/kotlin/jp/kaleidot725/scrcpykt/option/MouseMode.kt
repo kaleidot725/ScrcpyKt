@@ -1,7 +1,7 @@
 package jp.kaleidot725.scrcpykt.option
 
-enum class MouseMode(
-    val value: String,
+public enum class MouseMode(
+    public val value: String,
 ) {
     DISABLED("disabled"),
     SDK("sdk"),

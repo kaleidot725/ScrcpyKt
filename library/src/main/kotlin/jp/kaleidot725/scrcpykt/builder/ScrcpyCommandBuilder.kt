@@ -3,89 +3,89 @@ package jp.kaleidot725.scrcpykt.builder
 import jp.kaleidot725.scrcpykt.ScrcpyCommand
 import jp.kaleidot725.scrcpykt.option.LogLevel
 
-class ScrcpyCommandBuilder(
+public class ScrcpyCommandBuilder(
     private val binaryPath: String = "scrcpy",
     private val adbPath: String = "adb",
 ) {
     private val command = ScrcpyCommand(binaryPath = binaryPath, adbPath = adbPath)
 
-    fun video(configure: VideoOptionsBuilder.() -> Unit) =
+    public fun video(configure: VideoOptionsBuilder.() -> Unit): ScrcpyCommandBuilder =
         apply {
             VideoOptionsBuilder(command).configure()
         }
 
-    fun audio(configure: AudioOptionsBuilder.() -> Unit) =
+    public fun audio(configure: AudioOptionsBuilder.() -> Unit): ScrcpyCommandBuilder =
         apply {
             AudioOptionsBuilder(command).configure()
         }
 
-    fun display(configure: DisplayOptionsBuilder.() -> Unit) =
+    public fun display(configure: DisplayOptionsBuilder.() -> Unit): ScrcpyCommandBuilder =
         apply {
             DisplayOptionsBuilder(command).configure()
         }
 
-    fun input(configure: InputOptionsBuilder.() -> Unit) =
+    public fun input(configure: InputOptionsBuilder.() -> Unit): ScrcpyCommandBuilder =
         apply {
             InputOptionsBuilder(command).configure()
         }
 
-    fun camera(configure: CameraOptionsBuilder.() -> Unit) =
+    public fun camera(configure: CameraOptionsBuilder.() -> Unit): ScrcpyCommandBuilder =
         apply {
             CameraOptionsBuilder(command).configure()
         }
 
-    fun recording(configure: RecordingOptionsBuilder.() -> Unit) =
+    public fun recording(configure: RecordingOptionsBuilder.() -> Unit): ScrcpyCommandBuilder =
         apply {
             RecordingOptionsBuilder(command).configure()
         }
 
-    fun connection(configure: ConnectionOptionsBuilder.() -> Unit) =
+    public fun connection(configure: ConnectionOptionsBuilder.() -> Unit): ScrcpyCommandBuilder =
         apply {
             ConnectionOptionsBuilder(command).configure()
         }
 
-    fun control(configure: ControlOptionsBuilder.() -> Unit) =
+    public fun control(configure: ControlOptionsBuilder.() -> Unit): ScrcpyCommandBuilder =
         apply {
             ControlOptionsBuilder(command).configure()
         }
 
-    fun verbosity(level: LogLevel) =
+    public fun verbosity(level: LogLevel): ScrcpyCommandBuilder =
         apply {
             command.verbosity = level
         }
 
-    fun renderDriver(driver: String) =
+    public fun renderDriver(driver: String): ScrcpyCommandBuilder =
         apply {
             command.renderDriver = driver
         }
 
-    fun pushTarget(target: String) =
+    public fun pushTarget(target: String): ScrcpyCommandBuilder =
         apply {
             command.pushTarget = target
         }
 
-    fun startApp(packageName: String) =
+    public fun startApp(packageName: String): ScrcpyCommandBuilder =
         apply {
             command.startApp = packageName
         }
 
-    fun stdoutFile(filePath: String) =
+    public fun stdoutFile(filePath: String): ScrcpyCommandBuilder =
         apply {
             command.stdoutFile = filePath
         }
 
-    fun stderrFile(filePath: String) =
+    public fun stderrFile(filePath: String): ScrcpyCommandBuilder =
         apply {
             command.stderrFile = filePath
         }
 
-    fun outputFiles(
+    public fun outputFiles(
         stdoutPath: String? = null,
         stderrPath: String? = null,
-    ) = apply {
+    ): ScrcpyCommandBuilder = apply {
         stdoutPath?.let { command.stdoutFile = it }
         stderrPath?.let { command.stderrFile = it }
     }
 
-    fun build(): ScrcpyCommand = command
+    public fun build(): ScrcpyCommand = command
 }

@@ -2,33 +2,33 @@ package jp.kaleidot725.scrcpykt.builder
 
 import jp.kaleidot725.scrcpykt.ScrcpyCommand
 
-class ControlOptionsBuilder(
+public class ControlOptionsBuilder(
     private val command: ScrcpyCommand,
 ) {
-    fun turnScreenOff() =
+    public fun turnScreenOff(): ControlOptionsBuilder =
         apply {
             command.turnScreenOff = true
         }
 
-    fun stayAwake() =
+    public fun stayAwake(): ControlOptionsBuilder =
         apply {
             command.stayAwake = true
         }
 
-    fun powerOffOnClose() =
+    public fun powerOffOnClose(): ControlOptionsBuilder =
         apply {
             command.powerOffOnClose = true
         }
 
-    fun showTouches() =
+    public fun showTouches(): ControlOptionsBuilder =
         apply {
             command.showTouches = true
         }
 
-    fun disableScreensaver() =
+    public fun disableScreensaver(): ControlOptionsBuilder =
         apply {
             command.disableScreensaver = true
         }
 
-    fun build(): ScrcpyCommand = command
+    public fun build(): ScrcpyCommand = command
 }
