@@ -1,7 +1,7 @@
 package jp.kaleidot725.scrcpykt.option
 
-enum class CameraFacing(
-    val value: String,
+public enum class CameraFacing(
+    public val value: String,
 ) {
     FRONT("front"),
     BACK("back"),

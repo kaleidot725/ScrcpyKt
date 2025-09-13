@@ -3,35 +3,35 @@ package jp.kaleidot725.scrcpykt.builder
 import jp.kaleidot725.scrcpykt.ScrcpyCommand
 import jp.kaleidot725.scrcpykt.option.CameraFacing
 
-class CameraOptionsBuilder(
+public class CameraOptionsBuilder(
     private val command: ScrcpyCommand,
 ) {
-    fun size(
+    public fun size(
         width: Int,
         height: Int,
-    ) = apply {
+    ): CameraOptionsBuilder = apply {
         command.cameraSize = "${width}x$height"
     }
 
-    fun size(resolution: String) =
+    public fun size(resolution: String): CameraOptionsBuilder =
         apply {
             command.cameraSize = resolution
         }
 
-    fun facing(facing: CameraFacing) =
+    public fun facing(facing: CameraFacing): CameraOptionsBuilder =
         apply {
             command.cameraFacing = facing
         }
 
-    fun id(id: String) =
+    public fun id(id: String): CameraOptionsBuilder =
         apply {
             command.cameraId = id
         }
 
-    fun fps(fps: Int) =
+    public fun fps(fps: Int): CameraOptionsBuilder =
         apply {
             command.cameraFps = fps
         }
 
-    fun build(): ScrcpyCommand = command
+    public fun build(): ScrcpyCommand = command
 }

@@ -4,38 +4,38 @@ import jp.kaleidot725.scrcpykt.ScrcpyCommand
 import jp.kaleidot725.scrcpykt.option.AudioCodec
 import jp.kaleidot725.scrcpykt.option.AudioSource
 
-class AudioOptionsBuilder(
+public class AudioOptionsBuilder(
     private val command: ScrcpyCommand,
 ) {
-    fun bitRate(bitRate: Int) =
+    public fun bitRate(bitRate: Int): AudioOptionsBuilder =
         apply {
             command.audioBitRate = bitRate
         }
 
-    fun buffer(bufferMs: Int) =
+    public fun buffer(bufferMs: Int): AudioOptionsBuilder =
         apply {
             command.audioBuffer = bufferMs
         }
 
-    fun codec(codec: AudioCodec) =
+    public fun codec(codec: AudioCodec): AudioOptionsBuilder =
         apply {
             command.audioCodec = codec
         }
 
-    fun source(source: AudioSource) =
+    public fun source(source: AudioSource): AudioOptionsBuilder =
         apply {
             command.audioSource = source
         }
 
-    fun encoder(encoder: String) =
+    public fun encoder(encoder: String): AudioOptionsBuilder =
         apply {
             command.audioEncoder = encoder
         }
 
-    fun disableAudio() =
+    public fun disableAudio(): AudioOptionsBuilder =
         apply {
             command.noAudio = true
         }
 
-    fun build(): ScrcpyCommand = command
+    public fun build(): ScrcpyCommand = command
 }

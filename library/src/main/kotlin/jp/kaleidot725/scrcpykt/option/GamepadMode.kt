@@ -1,7 +1,7 @@
 package jp.kaleidot725.scrcpykt.option
 
-enum class GamepadMode(
-    val value: String,
+public enum class GamepadMode(
+    public val value: String,
 ) {
     DISABLED("disabled"),
     UHID("uhid"),

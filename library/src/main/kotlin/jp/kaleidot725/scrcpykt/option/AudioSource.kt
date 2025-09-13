@@ -1,7 +1,7 @@
 package jp.kaleidot725.scrcpykt.option
 
-enum class AudioSource(
-    val value: String,
+public enum class AudioSource(
+    public val value: String,
 ) {
     OUTPUT("output"),
     MIC("mic"),

@@ -1,7 +1,7 @@
 package jp.kaleidot725.scrcpykt.option
 
-enum class RecordFormat(
-    val value: String,
+public enum class RecordFormat(
+    public val value: String,
 ) {
     MP4("mp4"),
     MKV("mkv"),

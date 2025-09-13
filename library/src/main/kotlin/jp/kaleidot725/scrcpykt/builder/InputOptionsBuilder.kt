@@ -5,28 +5,28 @@ import jp.kaleidot725.scrcpykt.option.GamepadMode
 import jp.kaleidot725.scrcpykt.option.KeyboardMode
 import jp.kaleidot725.scrcpykt.option.MouseMode
 
-class InputOptionsBuilder(
+public class InputOptionsBuilder(
     private val command: ScrcpyCommand,
 ) {
-    fun keyboard(mode: KeyboardMode) =
+    public fun keyboard(mode: KeyboardMode): InputOptionsBuilder =
         apply {
             command.keyboard = mode
         }
 
-    fun mouse(mode: MouseMode) =
+    public fun mouse(mode: MouseMode): InputOptionsBuilder =
         apply {
             command.mouse = mode
         }
 
-    fun gamepad(mode: GamepadMode) =
+    public fun gamepad(mode: GamepadMode): InputOptionsBuilder =
         apply {
             command.gamepad = mode
         }
 
-    fun enableOtg() =
+    public fun enableOtg(): InputOptionsBuilder =
         apply {
             command.otg = true
         }
 
-    fun build(): ScrcpyCommand = command
+    public fun build(): ScrcpyCommand = command
 }

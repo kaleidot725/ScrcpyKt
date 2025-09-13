@@ -4,33 +4,33 @@ import jp.kaleidot725.scrcpykt.ScrcpyCommand
 import jp.kaleidot725.scrcpykt.option.CaptureOrientation
 import jp.kaleidot725.scrcpykt.option.RecordFormat
 
-class RecordingOptionsBuilder(
+public class RecordingOptionsBuilder(
     private val command: ScrcpyCommand,
 ) {
-    fun outputFile(filename: String) =
+    public fun outputFile(filename: String): RecordingOptionsBuilder =
         apply {
             command.record = filename
         }
 
-    fun format(format: RecordFormat) =
+    public fun format(format: RecordFormat): RecordingOptionsBuilder =
         apply {
             command.recordFormat = format
         }
 
-    fun orientation(orientation: CaptureOrientation) =
+    public fun orientation(orientation: CaptureOrientation): RecordingOptionsBuilder =
         apply {
             command.captureOrientation = orientation
         }
 
-    fun disablePlayback() =
+    public fun disablePlayback(): RecordingOptionsBuilder =
         apply {
             command.noPlayback = true
         }
 
-    fun v4l2Sink(device: String) =
+    public fun v4l2Sink(device: String): RecordingOptionsBuilder =
         apply {
             command.v4l2Sink = device
         }
 
-    fun build(): ScrcpyCommand = command
+    public fun build(): ScrcpyCommand = command
 }

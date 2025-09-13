@@ -4,43 +4,43 @@ import jp.kaleidot725.scrcpykt.ScrcpyCommand
 import jp.kaleidot725.scrcpykt.option.VideoCodec
 import jp.kaleidot725.scrcpykt.option.VideoSource
 
-class VideoOptionsBuilder(
+public class VideoOptionsBuilder(
     private val command: ScrcpyCommand,
 ) {
-    fun bitRate(bitRate: Int) =
+    public fun bitRate(bitRate: Int): VideoOptionsBuilder =
         apply {
             command.videoBitRate = bitRate
         }
 
-    fun maxFps(fps: Int) =
+    public fun maxFps(fps: Int): VideoOptionsBuilder =
         apply {
             command.maxFps = fps
         }
 
-    fun maxSize(size: Int) =
+    public fun maxSize(size: Int): VideoOptionsBuilder =
         apply {
             command.maxSize = size
         }
 
-    fun codec(codec: VideoCodec) =
+    public fun codec(codec: VideoCodec): VideoOptionsBuilder =
         apply {
             command.videoCodec = codec
         }
 
-    fun source(source: VideoSource) =
+    public fun source(source: VideoSource): VideoOptionsBuilder =
         apply {
             command.videoSource = source
         }
 
-    fun encoder(encoder: String) =
+    public fun encoder(encoder: String): VideoOptionsBuilder =
         apply {
             command.videoEncoder = encoder
         }
 
-    fun disableVideo() =
+    public fun disableVideo(): VideoOptionsBuilder =
         apply {
             command.noVideo = true
         }
 
-    fun build(): ScrcpyCommand = command
+    public fun build(): ScrcpyCommand = command
 }
