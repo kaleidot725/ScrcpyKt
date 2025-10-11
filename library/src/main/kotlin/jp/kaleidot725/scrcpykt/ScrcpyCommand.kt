@@ -104,7 +104,7 @@ public data class ScrcpyCommand(
         windowHeight?.let { command.addAll(listOf("--window-height", it.toString())) }
         if (fullscreen) command.add("--fullscreen")
         if (alwaysOnTop) command.add("--always-on-top")
-        newDisplay?.let { command.addAll(listOf("--new-display", it.toString())) }
+        newDisplay?.let { command.add("--new-display=${it}") }
 
         keyboard?.let { command.addAll(listOf("--keyboard", it.value)) }
         mouse?.let { command.addAll(listOf("--mouse", it.value)) }
